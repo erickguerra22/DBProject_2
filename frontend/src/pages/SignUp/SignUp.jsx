@@ -17,24 +17,27 @@ const SignUp = () => {
     fetchInstitutions()
   }, [])
 
+  const validatePassword = () => {
+    const password = document.getElementById('password')
+    const confirmPassword = document.getElementById('confirmPassword')
+
+    if (password.value !== confirmPassword.value) {
+      confirmPassword.setCustomValidity('Las contraseñas no coinciden')
+      return
+    }
+    confirmPassword.setCustomValidity('')
+  }
+
   const signUp = async (event) => {
     event.preventDefault()
     document.getElementById('result').innerHTML = ''
+
     const {
       username,
       email,
       password,
-      confirmPassword,
       institution,
     } = event.target
-
-    if (password.value !== confirmPassword.value) {
-      confirmPassword.setCustomValidity('Las contraseñas no coinciden')
-      confirmPassword.reportValidity()
-      return
-    }
-
-    confirmPassword.setCustomValidity('')
 
     const body = {
       username: username.value,
@@ -73,7 +76,7 @@ const SignUp = () => {
           <input id="username" placeholder="Nombre de usuario" title="" required />
           <input id="email" placeholder="Correo electrónico" type="email" title="" required />
           <input id="password" type="password" placeholder="Contraseña" title="" required />
-          <input id="confirmPassword" type="password" placeholder="Repite tu contraseña" title="" required />
+          <input id="confirmPassword" type="password" placeholder="Repite tu contraseña" title="" onChange={validatePassword} required />
           <select id="institution" defaultValue="" title="Selecciona una institución" required>
             <option value="" disabled hidden>Institución a la que pertenece</option>
             {institutions.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
