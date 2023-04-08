@@ -1,0 +1,141 @@
+.signUp-background {
+    background: url("https://cdn.pixabay.com/photo/2016/11/06/10/35/hospital-1802680_1280.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Agency FB";
+}
+
+.signUp-container {
+    box-shadow: 0 2px 9px #666;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: white;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+}
+
+.signUp {
+    box-shadow: 0 2px 9px #666;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: white;
+    width: 100%;
+    height: 100%;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.img-slider {
+    background: lightblue;
+    width: 400px;
+    height: 100%;
+}
+
+#result {
+    width: 100%;
+    text-align: center;
+    font-size: 12.5px;
+}
+
+.signUp h2 {
+    font-size: 30px;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.signUp form {
+    padding: 10px;
+}
+
+.signUp input {
+    background: 0;
+    outline: none;
+    border: none;
+    width: 100%;
+    border-bottom: 2px solid;
+    border-bottom-color: #132612;
+    margin-top: 15px;
+    padding: 5px 0;
+    font-size: 15px;
+}
+
+.signUp input::placeholder {
+    font-size: 13px;
+}
+
+.signUp select {
+    appearance: none;
+    outline: none;
+    width: 100%;
+    font-family: Calibri;
+    margin: 15px 0 0 0;
+    font-size: 16px;
+    padding: 3px 5px;
+    cursor: pointer;
+    border: 1px solid #094A42;
+    border-radius: 5px;
+    color: black;
+    font-weight: 500;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='16' fill='%23094a42' class='bi bi-caret-down' viewBox='2 0 17 16'><path d='M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z'/></svg>") no-repeat;
+    background-position: right center;
+}
+
+.signUp option{
+    color:black;
+}
+
+.signUp select::after {
+    background-color: aqua;
+}
+
+.signUp p {
+    font-family: Calibri;
+    font-size: 13px;
+    position: relative;
+    margin: 8px auto 0 auto;
+}
+
+.signUp a {
+    font-family: Calibri;
+    text-decoration: none;
+    width: fit-content;
+    text-align: center;
+    display: inline;
+    color: blue;
+}
+
+.signUp a:hover {
+    text-decoration: underline;
+    color: #094A42;
+}
+
+.submit {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.signUp button {
+    background: #094A42;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    height: 30px;
+    width: 130px;
+    cursor: pointer;
+}
+
+.signUp button:hover {
+    background: white;
+    color: #094A42;
+    border: solid 1px #094A42;
+}

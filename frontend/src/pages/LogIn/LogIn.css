@@ -1,0 +1,102 @@
+.logIn-background {
+    background: url("https://cdn.pixabay.com/photo/2016/11/06/10/35/hospital-1802680_1280.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Agency FB";
+}
+
+#result{
+    width: 100%;
+    text-align: center;
+    font-size: 12.5px;
+}
+
+.logIn {
+    box-shadow: 0 2px 9px #666;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: white;
+    width: 400px;
+    height: 380px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.logIn h2 {
+    font-size: 30px;
+    margin: 0;
+    margin-left: 10px;
+}
+
+.logIn input {
+    background: 0;
+    outline: none;
+    border: none;
+    width: 100%;
+    border-bottom: 2px solid;
+    border-bottom-color: #132612;
+    margin-top: 15px;
+    padding: 5px 0;
+    font-size: 15px;
+}
+
+.logIn p {
+    margin: 0;
+    margin-top: 5px;
+    font-family: Calibri;
+}
+
+.logIn a {
+    font-family: Calibri;
+    text-decoration: none;
+    width: fit-content;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    font-size: 13px;
+    color: blue;
+}
+
+.logIn a:hover{
+    text-decoration: underline;
+    color:#094A42;
+}
+
+.submit {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.logIn button {
+    background: #094A42;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    height: 30px;
+    width: 130px;
+    cursor: pointer;
+}
+
+.logIn button:hover{
+    background: white;
+    color: #094A42;
+    border: solid 1px #094A42;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Servidor del segundo proyecto de Bases de Datos 1",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erickguerra22/DBProject_2_Server.git"
+  },
+  "author": "Erick Guerra, Elías Alvarado y Adrian Fulladolsa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erickguerra22/DBProject_2_Server/issues"
+  },
+  "homepage": "https://github.com/erickguerra22/DBProject_2_Server#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.10.0",
+    "sha256": "^0.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
