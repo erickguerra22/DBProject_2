@@ -42,12 +42,16 @@ const LogIn = () => {
           <img src="/favicon.svg" alt="logo" />
           <h2>Iniciar Sesión</h2>
         </div>
-        <input id="user" required />
-        <p>Nombre de usuario o correo</p>
-        <input id="password" type="password" required />
-        <p>Contraseña</p>
+        <label htmlFor="user">
+          <input name="user" id="user" required />
+          Nombre de usuario o correo
+        </label>
+        <label htmlFor="password">
+          <input name="password" id="password" type="password" required />
+          Contraseña
+        </label>
         <p id="result" />
-        <a href="/">¿Has olvidado tu contraseña?</a>
+        {/* <a href="/">¿Has olvidado tu contraseña?</a>} */}
         <div className="submit">
           <button type="submit">Acceder</button>
           <button onClick={() => navigate('sign-up')} type="button">Registrarse</button>
