@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './SignUp.css'
 import { useAuth } from '../../services/Auth'
+import server from '../../services/server'
 
 const SignUp = () => {
   document.getElementById('title').innerHTML = 'Regístrate'
@@ -8,7 +9,7 @@ const SignUp = () => {
   const { setAuthToken } = useAuth()
 
   const fetchInstitutions = async () => {
-    const response = await fetch('http://127.0.0.1:2800/institution')
+    const response = await fetch(`${server}/institution`)
     const json = await response.json()
     setInstitutions(json.instituciones)
   }
@@ -51,7 +52,7 @@ const SignUp = () => {
       institution: institution.value,
     }
 
-    const response = await fetch('http://127.0.0.1:2800/user/signUp', {
+    const response = await fetch(`${server}/user/signUp`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

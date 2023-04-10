@@ -3,6 +3,7 @@ import './LogIn.css'
 // eslint-disable-next-line import/no-cycle
 import { navigate } from '../index'
 import { useAuth } from '../../services/Auth'
+import server from '../../services/server'
 
 const LogIn = () => {
   document.getElementById('title').innerHTML = 'Iniciar sesión'
@@ -17,7 +18,7 @@ const LogIn = () => {
       password: event.target[1].value,
     }
 
-    const response = await fetch('http://127.0.0.1:2800/user/logIn', {
+    const response = await fetch(`${server}/user/logIn`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {

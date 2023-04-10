@@ -9,7 +9,7 @@ CREATE TABLE "role"(
 
 CREATE TABLE institution(
 	"id" SERIAL PRIMARY KEY,
-	"name" VARCHAR(30),
+	"name" VARCHAR(30) UNIQUE,
 	address VARCHAR(100),
 	latitude FLOAT,
 	"length" FLOAT
@@ -24,3 +24,8 @@ CREATE TABLE "user"(
 	institution INT REFERENCES institution("id")
 );
 
+INSERT INTO "role" VALUES(0,'admin');
+INSERT INTO "role" VALUES(DEFAULT,'manager');
+
+
+INSERT INTO institution VALUES(DEFAULT,'Hospital San Juan de Dios', 'Zona 1 Ciudad de Guatemala, 1ra Avenida "A" 10-50',9.93363435,-84.0860790430928);
