@@ -2,19 +2,19 @@ import db from '../services/DBConnection.js'
 import sha256 from 'sha256'
 import generateSessionToken from '../services/jwt.js'
 
-const getUsers = (req, res) => {
-  db.query('SELECT * FROM "user"', (err, result) => {
+const getUsuarios = (req, res) => {
+  db.query('SELECT * FROM "usuario"', (err, result) => {
     if (err) throw err
     res.send({ usuarios: result.rows })
   })
 }
 
 const signUp = ({ body }, res) => {
-  const { username, email, password, role, institution } = body
+  const { username, email, pass, institucion_id, rol_id } = body
 
-  const passwordEncripted = sha256(password.trim())
-  const query = 'INSERT INTO "user" VALUES(DEFAULT,$1,$2,$3,$4,$5) RETURNING id,username,email,role,institution'
-  db.query(query, [username.trim(), email.trim(), passwordEncripted, role, institution], (err, result) => {
+  const passwordEncripted = sha256(pass.trim())
+  const query = 'INSERT INTO usuario VALUES(DEFAULT, $1,$2,$3,$4,$5) RETURNING usuario_id,username,email,institucion_id,rol_id'
+  db.query(query, [username.trim(), email.trim(), passwordEncripted, institucion_id, rol_id], (err, result) => {
     if (err) {
       if (err.code === '23505') {
         const field = (err.detail.includes('username') ? 'username' : 'email')
@@ -27,7 +27,7 @@ const signUp = ({ body }, res) => {
     }
 
     const insertedUser = result.rows[0]
-    const token = generateSessionToken(insertedUser.id)
+    const token = generateSessionToken(insertedUser.usuario_id)
     res.json({ ok: true, token, userData: insertedUser })
     return
   })
@@ -37,7 +37,7 @@ const logIn = ({ body }, res) => {
   const { user, password } = body
 
   const passwordEncripted = sha256(password.trim())
-  const query = 'SELECT * FROM "user" WHERE (username=$1 OR email=$1) AND "password" = $2;'
+  const query = 'SELECT * FROM usuario WHERE (username=$1 OR email=$1) AND pass = $2;'
 
   db.query(query, [user.trim(), passwordEncripted], (err, result) => {
     if (err || result.rows.length === 0) {
@@ -50,7 +50,7 @@ const logIn = ({ body }, res) => {
     }
 
     const userFound = result.rows[0]
-    const token = generateSessionToken(userFound.id)
+    const token = generateSessionToken(userFound.usuario_id)
 
     res.send({
       ok: true,
@@ -62,7 +62,7 @@ const logIn = ({ body }, res) => {
 }
 
 export {
-  getUsers,
+  getUsuarios as getUsers,
   signUp,
   logIn
 }

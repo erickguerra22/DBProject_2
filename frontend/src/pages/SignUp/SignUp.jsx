@@ -47,9 +47,9 @@ const SignUp = () => {
     const body = {
       username: username.value,
       email: email.value,
-      password: password.value,
-      role: 0, // Todos los usuarios registrados tienen rol de "manager"
-      institution: institution.value,
+      pass: password.value,
+      rol_id: 0, // Todos los usuarios registrados tienen rol de "manager"
+      institucion_id: institution.value,
     }
 
     const response = await fetch(`${server}/user/signUp`, {
@@ -67,7 +67,7 @@ const SignUp = () => {
       return
     }
     setAuthToken(responseJSON.token)
-    localStorage.setItem('user-data', JSON.stringify(responseJSON.userFound))
+    localStorage.setItem('user-data', JSON.stringify(responseJSON.userData))
   }
 
   return (
@@ -84,7 +84,9 @@ const SignUp = () => {
           <input id="confirmPassword" type="password" placeholder="Confirma tu contraseña" title="" onChange={validatePassword} required />
           <select id="institution" defaultValue="" title="Selecciona una institución" onChange={handleSelect} required>
             <option value="" disabled hidden>Institución a la que pertenece</option>
-            {institutions.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
+            {// eslint-disable-next-line camelcase
+              institutions.map(({ institucion_id, nombre }) => <option key={institucion_id} value={institucion_id}>{nombre}</option>)
+            }
           </select>
           <p id="result" />
           <p>

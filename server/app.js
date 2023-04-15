@@ -1,12 +1,14 @@
 'use strict'
 
-import express, { json, urlencoded } from 'express';
-import cors from 'cors';
-const PORT = 2800;
+import express, { json, urlencoded } from 'express'
+import cors from 'cors'
+const PORT = 2800
 
-import db from './services/DBConnection.js';
-import UserRoute from './routes/user.route.js';
-import InstitutionRoute from './routes/institution.route.js';
+import db from './services/DBConnection.js'
+import UserRoute from './routes/user.route.js'
+import InstitutionRoute from './routes/institution.route.js'
+import AddictionRoute from './routes/adiccion.route.js'
+import FileRoute from './routes/expediente.route.js'
 
 const app = express()
 
@@ -31,3 +33,5 @@ app.get('/', (req, res) => {
 
 app.use('/user', UserRoute)
 app.use('/institution', InstitutionRoute)
+app.use('/addiction', AddictionRoute)
+app.use('/file', FileRoute)

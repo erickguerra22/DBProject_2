@@ -19,7 +19,7 @@ module.exports = {
   rules: {
     semi: ['error', 'never'],
     'react/function-component-definition': 'off',
-    'max-len': ['warn', 120],
+    'max-len': ['warn', 200],
     'react/button-has-type': 'off',
   },
 }
