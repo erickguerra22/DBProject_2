@@ -6,21 +6,22 @@ DROP TABLE IF EXISTS tratamiento;
 DROP TABLE IF EXISTS historial;
 DROP TABLE IF EXISTS expediente;
 DROP TABLE IF EXISTS bodega;
-DROP TABLE IF EXISTS medico;
+DROP TABLE IF EXISTS asignacion;
 DROP TABLE IF EXISTS bitacora;
-DROP TABLE IF EXISTS usuario;
-DROP TABLE IF EXISTS institucion;
+DROP TABLE IF EXISTS institucion cascade;
 DROP TABLE IF EXISTS suministro;
 DROP TABLE IF EXISTS material;
 DROP TABLE IF EXISTS medicamento;
 DROP TABLE IF EXISTS procedimiento;
 DROP TABLE IF EXISTS examen;
 DROP TABLE IF EXISTS cirugia;
-DROP TABLE IF EXISTS especialidad;
 DROP TABLE IF EXISTS municipio;
 DROP TABLE IF EXISTS departamento;
 DROP TABLE IF EXISTS enfermedad;
 DROP TABLE IF EXISTS adiccion;
+DROP TABLE IF EXISTS medico;
+DROP TABLE IF EXISTS especialidad;
+DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS rol;
 
 CREATE TABLE rol(
@@ -96,26 +97,33 @@ CREATE TABLE institucion(
 	municipio_id INT REFERENCES municipio(municipio_id)
 );
 
-CREATE TABLE medico(
-	no_colegiado VARCHAR(10) PRIMARY KEY,
-	nombre VARCHAR(50),
-	direccion VARCHAR(50),
-	telefono VARCHAR(10),
-	especialidad_id INT REFERENCES especialidad(especialidad_id)
-);
-
 CREATE TABLE usuario(
-	usuario_id SERIAL PRIMARY KEY,
-	username VARCHAR(30) UNIQUE,
+	username VARCHAR(30) PRIMARY KEY,
 	email VARCHAR(100) UNIQUE,
 	pass TEXT,
-	institucion_id INT REFERENCES institucion(institucion_id),
 	rol_id INT REFERENCES rol(rol_id),
-	no_colegiado VARCHAR(10) REFERENCES medico(no_colegiado)
+	nombre VARCHAR(50),
+	telefono VARCHAR(10) UNIQUE
+);
+
+CREATE TABLE medico(
+	no_colegiado VARCHAR(10) PRIMARY KEY,
+	direccion VARCHAR(50),
+	especialidad_id INT REFERENCES especialidad(especialidad_id),
+	usuario VARCHAR(30) REFERENCES usuario(username) UNIQUE
+);
+
+CREATE TABLE asignacion(
+	usuario VARCHAR(30) REFERENCES usuario(username),
+	institucion INT REFERENCES institucion(institucion_id),
+	fecha_entrada DATE default current_date,
+	fecha_salida DATE,
+	PRIMARY KEY (usuario, institucion, fecha_entrada)
 );
 
 CREATE TABLE bitacora(
-	fechahora TIMESTAMP PRIMARY KEY,
+	bitacora_id SERIAL PRIMARY KEY,
+	fechahora TIMESTAMP,
 	usuario VARCHAR(30) REFERENCES usuario(username),
 	tabla VARCHAR(50),
 	accion VARCHAR(30),
@@ -133,14 +141,14 @@ CREATE TABLE bodega(
 CREATE TABLE expediente(
 	dpi VARCHAR(20) PRIMARY KEY,
 	nombre VARCHAR(50),
-	telefono VARCHAR(10),
+	telefono VARCHAR(10) UNIQUE,
 	direccion VARCHAR(50),
-	estado VARCHAR(10)
+	estado VARCHAR(10) default 'Enfermo'
 );
 
 CREATE TABLE historial(
 	historial_id SERIAL PRIMARY KEY,
-	dpi VARCHAR(20) REFERENCES expediente(dpi),
+	dpi VARCHAR(20) REFERENCES expediente(dpi) ON DELETE CASCADE,
 	fechahora_atencion TIMESTAMP,
 	altura FLOAT,
 	peso FLOAT,
@@ -153,33 +161,33 @@ CREATE TABLE historial(
 
 CREATE TABLE tratamiento(
 	tratamiento_id SERIAL PRIMARY KEY,
-	historial_id INT REFERENCES historial(historial_id),
+	historial_id INT REFERENCES historial(historial_id) ON DELETE CASCADE,
 	descripcion TEXT,
 	enfermedad_tratada INT REFERENCES enfermedad(enfermedad_id),
 	medico_tratante VARCHAR(10) REFERENCES medico(no_colegiado)
 );
 
 CREATE TABLE procedimiento_realizado(
-	tratamiento_id INT REFERENCES tratamiento(tratamiento_id),
+	tratamiento_id INT REFERENCES tratamiento(tratamiento_id) ON DELETE CASCADE,
 	procedimiento_id VARCHAR(10) REFERENCES procedimiento(procedimiento_id),
 	PRIMARY KEY (tratamiento_id, procedimiento_id)
 );
 
 CREATE TABLE medicamento_suministrado(
-	tratamiento_id INT REFERENCES tratamiento(tratamiento_id),
+	tratamiento_id INT REFERENCES tratamiento(tratamiento_id) on delete cascade,
 	medicamento_id INT REFERENCES medicamento(medicamento_id),
 	cantidad INT,
 	PRIMARY KEY (tratamiento_id, medicamento_id)
 );
 
 CREATE TABLE enfermedad_padecida(
-	historial_id INT REFERENCES historial(historial_id),
+	historial_id INT REFERENCES historial(historial_id) ON DELETE CASCADE,
 	enfermedad_id INT REFERENCES enfermedad(enfermedad_id),
 	PRIMARY KEY (historial_id, enfermedad_id)
 );
 
 CREATE TABLE adiccion_padecida(
-	historial_id INT REFERENCES historial(historial_id),
+	historial_id INT REFERENCES historial(historial_id) ON DELETE CASCADE,
 	adiccion_id INT REFERENCES adiccion(adiccion_id),
 	PRIMARY KEY (historial_id, adiccion_id)
 );
@@ -255,6 +263,9 @@ $BODY$
 BEGIN
 	IF(LOWER(new.resultado) = 'muerto') THEN
 		UPDATE expediente SET estado = 'Muerto' WHERE dpi = new.dpi;
+	ELSIF(LOWER(new.resultado) = 'curado') THEN
+		UPDATE expediente SET estado = 'Curado' WHERE dpi = new.dpi;
+	ELSE UPDATE expediente SET estado = 'Enfermo' WHERE dpi = new.dpi;
 	END IF;
 	RETURN NEW;
 END;
@@ -295,3 +306,75 @@ BEFORE INSERT
 ON medicamento_suministrado
 FOR EACH ROW
 EXECUTE PROCEDURE actualizar_bodega();
+
+create or replace function insertar_bitacora()
+RETURNS trigger as
+$BODY$
+declare usuario text;
+begin
+	usuario = (SELECT current_setting('my.app_user'));
+	if lower(TG_OP) = 'update' or lower(TG_OP) = 'delete' then  
+		if TG_TABLE_NAME = 'historial' then
+	    insert into bitacora(fechahora, usuario, tabla, accion, descripcion)
+	    values (now(), usuario, 'historial', TG_OP, 
+	   	(concat('|Registro modificado| historial: ', old.historial_id, ' dpi: ', old.dpi, ' fechahora_atencion: ', old.fechahora_atencion, 
+	   	' altura: ', old.altura, ' peso: ', old.peso, ' imc: ', old.imc, ' precedentes: ', old.precedentes, 
+	   	' resultado: ', old.resultado, ' evolucion: ', old.evolucion, ' institucion_id: ', old.institucion_id))
+	   	);
+	
+	   	else
+	   	insert into bitacora(fechahora, usuario, tabla, accion, descripcion)
+	    values (now(), usuario, 'expediente', TG_OP, 
+	   	(concat('|Registro modificado| dpi: ', old.dpi, ' nombre: ', old.nombre, ' telefono: ', old.telefono, 
+	   	' direccion: ', old.direccion, ' estado: ', old.estado))
+	   	);
+	   
+	   	end if;
+	else 
+		if TG_TABLE_NAME = 'historial' then
+		insert into bitacora(fechahora, usuario, tabla, accion, descripcion)
+	    values (now(), usuario, 'historial', TG_OP, null);
+	   	
+	   	else
+	   	insert into bitacora(fechahora, usuario, tabla, accion, descripcion)
+	    values (now(), usuario, 'expediente', TG_OP, null);
+	   	
+	   	end if;
+	
+	end if;
+
+    return new;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+drop trigger if exists trigger_on_historial on historial;
+CREATE TRIGGER trigger_on_historial
+AFTER insert or update or delete 
+ON historial
+FOR EACH ROW
+EXECUTE PROCEDURE insertar_bitacora();
+
+drop trigger if exists trigger_on_expediente on expediente;
+CREATE TRIGGER trigger_on_expediente
+AFTER insert or update or delete 
+ON expediente
+FOR EACH ROW
+EXECUTE PROCEDURE insertar_bitacora();
+
+create or replace function salida()
+RETURNS trigger as
+$BODY$
+begin
+	UPDATE asignacion SET fecha_salida = current_date WHERE usuario = new.usuario AND fecha_salida is null;
+    return new;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+drop trigger if exists trigger_on_asignacion on asignacion;
+CREATE TRIGGER trigger_on_asignacion
+BEFORE insert
+ON asignacion
+FOR EACH ROW
+EXECUTE PROCEDURE salida();

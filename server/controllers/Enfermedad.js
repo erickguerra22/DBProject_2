@@ -1,10 +1,10 @@
 import db from '../services/DBConnection.js'
 
-const getAdicciones = ({ params }, res) => {
+const getEnfermedades = ({ params }, res) => {
   const { historial } = params
-  const query = `select sustancia
-  from adiccion_padecida
-  NATURAL JOIN adiccion where historial_id = $1`
+  const query = `select enfermedad.nombre enfermedad
+  from enfermedad_padecida
+  NATURAL JOIN enfermedad where historial_id = $1`
   db.query(query, [historial], (err, result) => {
     if (err) {
       console.log(err)
@@ -17,10 +17,10 @@ const getAdicciones = ({ params }, res) => {
       return
     }
 
-    res.send({ ok: true, adicciones_padecidas: result.rows })
+    res.send({ ok: true, enfermedades_padecidas: result.rows })
   })
 }
 
 export {
-  getAdicciones
+  getEnfermedades
 }

@@ -1,11 +1,7 @@
 import db from '../services/DBConnection.js'
 
-const getAdicciones = ({ params }, res) => {
-  const { historial } = params
-  const query = `select sustancia
-  from adiccion_padecida
-  NATURAL JOIN adiccion where historial_id = $1`
-  db.query(query, [historial], (err, result) => {
+const getRegistros = (req, res) => {
+  db.query('SELECT * FROM bitacora', (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -17,10 +13,10 @@ const getAdicciones = ({ params }, res) => {
       return
     }
 
-    res.send({ ok: true, adicciones_padecidas: result.rows })
+    res.send({ registros: result.rows })
   })
 }
 
 export {
-  getAdicciones
+  getRegistros
 }
