@@ -52,7 +52,7 @@ const LogIn = () => {
           Contraseña
         </label>
         <p id="result" />
-        {/* <a href="/">¿Has olvidado tu contraseña?</a>} */}
+        {/* <Link to="/">¿Has olvidado tu contraseña?</Link>} */}
         <div className="submit">
           <button type="submit">Acceder</button>
           <button onClick={() => navigate('sign-up')} type="button">Registrarse</button>

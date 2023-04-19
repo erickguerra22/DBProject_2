@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './SignUp.css'
 import { useAuth } from '../../services/Auth'
 import server from '../../services/server'
@@ -45,9 +46,6 @@ const SignUp = () => {
       nombre,
       telefono,
     } = event.target
-
-    console.log(nombre.value)
-    console.log(telefono.value)
 
     const body = {
       username: username.value,
@@ -100,7 +98,7 @@ const SignUp = () => {
           <p id="result" />
           <p>
             ¿Ya tienes una cuenta?
-            <a href="/log-in"> ¡Inicia sesión aquí!</a>
+            <Link to="/log-in"> ¡Inicia sesión aquí!</Link>
           </p>
           <div className="submit">
             <button type="submit">Crear usuario</button>
