@@ -43,18 +43,6 @@
     margin-left: 10px;
 }
 
-.logIn input {
-    background: 0;
-    outline: none;
-    border: none;
-    width: 100%;
-    border-bottom: 2px solid;
-    border-bottom-color: #132612;
-    margin: 10px 0;
-    padding: 5px 0;
-    font-size: 15px;
-}
-
 .logIn p,
 label {
     margin: 0;

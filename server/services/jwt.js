@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken"
 import jwtKey from "./code.js"
 
-const generateSessionToken = (code) => jwt.sign(
+const generateSessionToken = (username) => jwt.sign(
   {
     type: "SESSION",
-    id: code,
+    id: username,
   },
   jwtKey
 )

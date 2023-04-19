@@ -84,7 +84,7 @@ const SignUp = () => {
             <h2>Nuevo Usuario</h2>
           </div>
           <input id="nombre" placeholder="Nombre" title="" required />
-          <input id="telefono" placeholder="Número de teléfono" type="number" title="" required />
+          <input id="telefono" minLength="8" placeholder="Número de teléfono" type="number" title="" required />
           <input id="username" placeholder="Nombre de usuario" title="" required />
           <input id="email" placeholder="Correo electrónico" type="email" title="" required />
           <input id="password" type="password" placeholder="Contraseña" title="" required />

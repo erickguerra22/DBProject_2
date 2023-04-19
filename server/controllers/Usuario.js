@@ -60,7 +60,16 @@ const logIn = ({ body }, res) => {
   const { user, password } = body
 
   const passwordEncripted = sha256(password.trim())
-  const query = 'SELECT * FROM usuario WHERE (username=$1 OR email=$1) AND pass = $2;'
+  const query = `SELECT username, email, usuario.nombre nombre, telefono, rol.nombre rol, institucion.nombre institucion,
+	rol.rol_id, institucion.institucion_id, fecha_entrada, direccion, no_colegiado, especialidad.nombre especialidad
+	FROM usuario
+	INNER JOIN rol ON rol.rol_id = usuario.rol_id
+	INNER JOIN asignacion ON asignacion.usuario = usuario.username
+	INNER JOIN institucion ON asignacion.institucion = institucion.institucion_id
+	LEFT JOIN medico ON usuario.username = medico.usuario
+	LEFT JOIN especialidad ON especialidad.especialidad_id = medico.especialidad_id
+	WHERE (username=$1 OR email=$1)
+	AND pass = $2;`
 
   db.query(query, [user.trim(), passwordEncripted], (err, result) => {
     if (err || result.rows.length === 0) {
@@ -75,7 +84,7 @@ const logIn = ({ body }, res) => {
     db.query('SET myvar.app_user = $1', [user.trim()], (err, result2) => {
       if (result) {
         const userFound = result.rows[0]
-        const token = generateSessionToken(userFound.usuario_id)
+        const token = generateSessionToken(userFound.username)
 
         res.send({
           ok: true,
@@ -89,14 +98,14 @@ const logIn = ({ body }, res) => {
 }
 
 const updateUsuario = ({ body, params }, res) => {
-  const { email, pass, nombre, telefono, rol } = body
+  const { email, nombre, telefono, rol, direccion } = body
   const { username } = params
+  const fields = [email.trim(), nombre.trim(), telefono.trim(), rol, username.trim()]
 
-  const query = `UPDATE usuario SET email = $1, pass = $2, nombre = $3, telefono = $4, rol_id = $5
-  WHERE username = $6 RETURNING username,email,rol_id, nombre, telefono;`
-  const passwordEncripted = sha256(pass.trim())
+  const query = `UPDATE usuario SET email = $1, nombre = $2, telefono = $3, rol_id = $4
+  WHERE username = $5 RETURNING username,email,rol_id, nombre, telefono;`
 
-  db.query(query, [email.trim(), passwordEncripted, nombre.trim(), telefono.trim(), rol.trim(), username.trim()], (err, result) => {
+  db.query(query, fields, (err, result) => {
     if (err) {
       if (err.code === '23505') {
         const field = (err.detail.includes('telefono') ? 'telefono' : 'email')
@@ -106,8 +115,27 @@ const updateUsuario = ({ body, params }, res) => {
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
       return
     }
-
     const updatedUser = result.rows[0]
+
+    if (direccion !== undefined) {
+      const newQuery = 'UPDATE medico SET direccion = $1 WHERE usuario = $2 RETURNING direccion;'
+
+      db.query(newQuery, [direccion.trim(), username.trim()], (err, newResult) => {
+        if (err) {
+          res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+          return
+        }
+        if (newResult.rows[0] !== undefined)
+          updatedUser.direccion = newResult.rows[0].direccion
+        if (updatedUser === undefined) {
+          res.status(404).send({ ok: false, error: 'El username indicado no existe.' })
+          return
+        }
+        res.json({ ok: true, userData: updatedUser })
+        return
+      })
+    }
+    if (direccion !== undefined) return
     if (updatedUser === undefined) {
       res.status(404).send({ ok: false, error: 'El username indicado no existe.' })
       return
