@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import { navigate } from '../../pages/index'
 import './Tabla.css'
 
-const Tabla = ({ headers, arr }) => {
+const Tabla = ({ arr }) => {
+  // eslint-disable-next-line no-unused-vars
   const [state, setState] = React.useState(arr)
   const keys = Object.keys(state[0])
 
   const handleClick = (row) => {
-    //navigate('user-detail')
+    navigate('user-detail')
     localStorage.setItem('selected_item', Object.values(state[row])[0])
   }
 
