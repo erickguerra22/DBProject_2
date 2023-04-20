@@ -32,8 +32,7 @@ const NavBar = () => {
   }
 
   const logout = () => {
-    localStorage.removeItem('userToken')
-    localStorage.removeItem('user-data')
+    localStorage.clear()
   }
   return (
     <header className="navBar">

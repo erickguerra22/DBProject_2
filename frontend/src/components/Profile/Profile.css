@@ -1,0 +1,101 @@
+.close{
+    left:45%;
+    position: relative;
+    font-weight: bolder;
+}
+
+.close:hover{
+    border: none;
+}
+
+.profileBTN {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 50px;
+    width: 35px;
+    height: 35px;
+    position: relative;
+    outline: none;
+}
+
+.profileBTN:hover{
+    color:white;
+    border:none;
+    box-shadow: 0px 10px 35px -10px rgba(0, 0, 0, 1);
+}
+
+.profileContent {
+    position: absolute;
+    max-width: 100%;
+    width: 434px;
+    padding: 15px 5px;
+    left:-700px;
+    top:0;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 550px;
+    height: 100vh;
+    align-items: center;
+    box-shadow: 0px 10px 35px -10px rgba(0, 0, 0, 0.2);
+    transition: all .6s ease;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.profileContent.active{
+    left:0;
+    top:0;
+}
+
+.profileLogo {
+    display: flex;
+    height: 180px;
+    width: 180px;
+    border-radius: 100%;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+}
+
+.profile p {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 3px auto;
+}
+
+.profileLogo p {
+    font-size: 100px;
+    margin: auto;
+}
+
+.profile label {
+    width: 45%;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.info input, .info select {
+    width: fit-content;
+    display: block;
+}
+
+.info select{
+    margin-bottom: 10px;
+    width: 100%;
+    color:black;
+}
+
+.info input::placeholder {
+    font-size: 15px;
+}
+
+.info {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.actions {
+    display: flex;
+    width: 70%;
+    justify-content: space-around;
+}

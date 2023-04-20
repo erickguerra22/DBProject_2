@@ -1,19 +1,14 @@
 import db from '../services/DBConnection.js'
 
 const getExpedientes = (req, res) => {
-  db.query('SELECT * FROM expediente', (err, result) => {
+  db.query('SELECT dpi "DPI", nombre "Nombre", telefono "Telefono", direccion "Direccion", estado "Estado" FROM expediente', (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
       return
     }
 
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-      return
-    }
-
-    res.send({ expedientes: result.rows })
+    res.send({ result: result.rows })
   })
 }
 
@@ -69,7 +64,7 @@ const updateExpediente = ({ body, params }, res) => {
 const searchExpediente = ({ params }, res) => {
   const { search } = params
   const query = `select * from expediente
-  where nombre ilike '%${search}%' or dpi ilike '%${search}%' or estado ilike '%${search}%'`
+  where nombre ilike '%${search}%' or dpi ilike '%${search}%' or estado ilike '%${search}%' or direccion ilike '%${search}%'`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -78,12 +73,7 @@ const searchExpediente = ({ params }, res) => {
       return
     }
 
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-      return
-    }
-
-    res.json({ ok: true, registros: result.rows })
+    res.json({ ok: true, result: result.rows })
     return
   })
 }
