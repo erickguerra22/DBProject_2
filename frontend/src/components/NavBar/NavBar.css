@@ -4,7 +4,8 @@
     flex-direction: row;
     font-family: 'Agency FB';
     justify-content: space-between;
-    height: fit-content;
+    box-sizing: border-box;
+    height: 13%;
     padding: 10px 30px;
     box-shadow: 0px 10px 16px -8px rgba(0, 0, 0, 0.2);
 }
@@ -24,6 +25,7 @@
 .options {
     font-size: 30px;
     color:black;
+    background: none;
     @media(max-width: 768px) {
         display: none;
     }
@@ -48,6 +50,7 @@
         background: none;
         left: 0;
         height: auto;
+        color:black;
         display: block;
         font-size: 30px;
         width: auto;
@@ -101,6 +104,9 @@
     left:-1000px;
     z-index: -1;
     transition: all .6s ease;
+    @media(min-width: 768px) {
+        display: none;
+    }
 }
 
 .menuBackground.active{

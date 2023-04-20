@@ -1,14 +1,14 @@
 import db from '../services/DBConnection.js'
 import { updateUsuario } from './Usuario.js'
 
-const getMedicos = (req,res) =>{
+const getMedicos = (req, res) => {
 
   const query = `select no_colegiado, u.nombre, email, telefono, direccion, e.nombre especialidad
 	from medico med
 	inner join usuario u on med.usuario = u.username
 	inner join especialidad e ON med.especialidad_id = e.especialidad_id;`
 
-  db.query(query, (err,result) => {
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -20,12 +20,36 @@ const getMedicos = (req,res) =>{
       return
     }
 
-    res.send({ ok:true, usuarios: result.rows })
+    res.send({ ok: true, usuarios: result.rows })
   })
 }
 
-const newMedico = ({body}, res) => {
-  const {no_colegiado, direccion, especialidad, usuario} = body
+const getMedico = ({ params }, res) => {
+  const { username } = params
+  const query = `select no_colegiado, u.nombre, email, telefono, direccion, e.nombre especialidad
+	from medico med
+	inner join usuario u on med.usuario = u.username
+	inner join especialidad e ON med.especialidad_id = e.especialidad_id
+  where u.username = $1;`
+
+  db.query(query, [username], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
+    }
+
+    res.send({ ok: true, usuarios: result.rows })
+  })
+}
+
+const newMedico = ({ body }, res) => {
+  const { no_colegiado, direccion, especialidad, usuario } = body
   const query = 'INSERT INTO medico VALUES($1, $2, $3, $4) RETURNING no_colegiado, direccion, especialidad_id, usuario;'
 
   db.query(query, [no_colegiado, direccion, especialidad, usuario], (err, result) => {
@@ -36,7 +60,7 @@ const newMedico = ({body}, res) => {
         res.status(400).send({ ok: false, error: `El valor ingresado para ${field} no existe en la base de datos.` })
         return
       }
-      if (err.code === '23505'){
+      if (err.code === '23505') {
         const field = (err.detail.includes('usuario') ? 'usuario' : 'no_colegiado')
         res.status(400).send({ ok: false, error: `El ${field} ingresado ya se encuentra registrado.` })
         return
@@ -88,5 +112,6 @@ const updateMedico = ({ body, params }, res) => {
 export {
   newMedico,
   getMedicos,
-  updateMedico
+  updateMedico,
+  getMedico
 }
