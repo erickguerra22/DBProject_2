@@ -32,8 +32,7 @@ const NavBar = () => {
   }
 
   const logout = () => {
-    localStorage.removeItem('userToken')
-    localStorage.removeItem('user-data')
+    localStorage.clear()
   }
   return (
     <header className="navBar">
@@ -54,7 +53,7 @@ const NavBar = () => {
         <nav className={`options${moreActive ? ' active' : ''}`} style={{ contentVisibility: `${visibleOptions ? 'visible' : 'hidden'}` }}>
           {options.map(({ nombre, link }) => <NavBarOption key={nombre} nombre={nombre} link={link} />)}
         </nav>
-        <button onClick={(() => setMoreActive((old) => !old))} className="more" style={{ zIndex: '1' }}>⇶</button>
+        <button onClick={(() => setMoreActive((old) => !old))} className="more" style={{ zIndex: '1000' }}>⇶</button>
       </div>
       <div className={`menuBackground${moreActive ? ' active' : ''}`} />
     </header>

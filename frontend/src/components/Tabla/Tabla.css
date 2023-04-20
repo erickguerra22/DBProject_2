@@ -1,0 +1,70 @@
+th,
+td {
+    outline: 1px solid;
+}
+
+th{
+    border-right: 1px solid white;
+}
+
+td:first-child,
+th:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+td:last-child,
+th:last-child {
+    border-radius: 0 5px 5px 0;
+    border-right: none;
+}
+
+.tableBTN{
+    font-family: ddg-serp-icons;
+    background: none;
+    padding: none;
+    margin: none;
+    color:black;
+    font-size: 30px;
+    width: fit-content;
+}
+
+.noAsignado{
+    background-color: rgb(211, 112, 112);
+}
+
+.tableBTN:hover{
+    border:none;
+    background: none;
+}
+
+.list {
+    width: 100%;
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    overflow-y: scroll;
+    max-height: 100vh;
+}
+
+.listBody {
+    width: 100%;
+    margin: 0 5px 5px 5px;
+    display: table;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #094A42;
+    color:white;
+    outline: none;
+    padding: 5px;
+}
+
+td {
+    text-align: center;
+    padding: 10px;
+}
