@@ -33,7 +33,7 @@ const Profile = ({ randomColor }) => {
       document.getElementById('address').disabled = true
       document.getElementById('especiality').disabled = true
       document.getElementById('address').value = document.getElementById('address').placeholder
-      document.querySelector('select').selectedIndex = 0
+      document.querySelector('select').selectedIndex = userData.especialidad_id
     }
     document.getElementById('editar').style.display = 'inline'
     document.getElementById('cancelar').style.display = 'none'
@@ -81,6 +81,7 @@ const Profile = ({ randomColor }) => {
     userData.telefono = responseJSON.userData.telefono
     userData.direccion = responseJSON.userData.direccion
     userData.especialidad = document.getElementById(`${document.getElementById('especiality').value}`).innerHTML
+    userData.especialidad_id = responseJSON.userData.especialidad_id
     localStorage.setItem('user-data', JSON.stringify(userData))
   }
 
@@ -137,8 +138,8 @@ const Profile = ({ randomColor }) => {
             userData.rol_id === 2
             && (
               <label htmlFor="especiality">
-                <select name="especiality" id="especiality" disabled defaultValue="" title="Selecciona una especialidad" onChange={handleSelect} required>
-                  <option value="" disabled hidden>{userData.especialidad}</option>
+                <select name="especiality" id="especiality" disabled defaultValue={`${userData.especialidad_id}`} title="Selecciona una especialidad" onChange={handleSelect} required>
+                  <option value={`${userData.especialidad_id}`} disabled hidden>{userData.especialidad}</option>
                   {// eslint-disable-next-line camelcase
                     especialities.map(({ especialidad_id, nombre }) => <option key={especialidad_id} id={especialidad_id} value={especialidad_id}>{nombre}</option>)
                   }

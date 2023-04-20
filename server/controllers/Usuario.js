@@ -3,11 +3,11 @@ import sha256 from 'sha256'
 import generateSessionToken from '../services/jwt.js'
 
 const getUsuarios = (req, res) => {
-  const query = `select username, email, u.nombre nombre, u.telefono telefono, i.nombre institucion, fecha_entrada, r.nombre rol
+  const query = `select username "Usuario", u.nombre "Nombre", i.nombre "Institucion", fecha_entrada "Fecha de entrada", r.nombre "Rol"
 	from asignacion asig
 	RIGHT JOIN usuario u ON u.username = asig.usuario
 	left JOIN institucion i ON asig.institucion = i.institucion_id
-	left JOIN rol r ON u.rol_id = r.rol_id;`
+	left JOIN rol r ON u.rol_id = r.rol_id ORDER BY r.rol_id;`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -21,7 +21,7 @@ const getUsuarios = (req, res) => {
       return
     }
 
-    res.send({ ok: true, usuarios: result.rows })
+    res.send({ ok: true, result: result.rows })
   })
 }
 
@@ -61,7 +61,7 @@ const logIn = ({ body }, res) => {
 
   const passwordEncripted = sha256(password.trim())
   const query = `SELECT username, email, usuario.nombre nombre, telefono, rol.nombre rol, institucion.nombre institucion,
-	rol.rol_id, institucion.institucion_id, fecha_entrada, direccion, no_colegiado, especialidad.nombre especialidad
+	rol.rol_id, institucion.institucion_id, fecha_entrada, direccion, no_colegiado, medico.especialidad_id, especialidad.nombre especialidad
 	FROM usuario
 	INNER JOIN rol ON rol.rol_id = usuario.rol_id
 	INNER JOIN asignacion ON asignacion.usuario = usuario.username
@@ -118,15 +118,17 @@ const updateUsuario = ({ body, params }, res) => {
     const updatedUser = result.rows[0]
 
     if (direccion !== undefined || especialidad !== undefined) {
-      const newQuery = 'UPDATE medico SET direccion = $1, especialidad_id = $2 WHERE usuario = $3 RETURNING direccion;'
+      const newQuery = 'UPDATE medico SET direccion = $1, especialidad_id = $2 WHERE usuario = $3 RETURNING direccion, especialidad_id;'
 
       db.query(newQuery, [direccion.trim(), especialidad, username.trim()], (err, newResult) => {
         if (err) {
           res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
           return
         }
-        if (newResult.rows[0] !== undefined)
+        if (newResult.rows[0] !== undefined){
           updatedUser.direccion = newResult.rows[0].direccion
+          updatedUser.especialidad_id = newResult.rows[0].especialidad_id
+        }
         if (updatedUser === undefined) {
           res.status(404).send({ ok: false, error: 'El username indicado no existe.' })
           return
@@ -170,12 +172,13 @@ const createUser = ({ body }, res) => {
 
 const searchUser = ({ params }, res) => {
   const { search } = params
-  const query = `select username, email, u.nombre nombre, u.telefono telefono, i.nombre institucion, fecha_entrada, r.nombre rol from asignacion asig
-	natural join usuario u
-	INNER JOIN institucion i ON asig.institucion = i.institucion_id
-	INNER JOIN rol r ON u.rol_id = r.rol_id
-	where u.nombre ilike '%${search.trim()}%' or i.nombre ilike '%${search.trim()}%'
-  or u.username ilike '%${search.trim()}%' or r.nombre ilike '%${search.trim()}%';`
+  const query = `select username "Usuario", u.nombre "Nombre", i.nombre "Institucion", fecha_entrada "Fecha de entrada", r.nombre "Rol"
+	from asignacion asig
+	RIGHT JOIN usuario u ON u.username = asig.usuario
+	left JOIN institucion i ON asig.institucion = i.institucion_id
+	left JOIN rol r ON u.rol_id = r.rol_id
+	where username ilike '%${search}%' or u.nombre ilike '%${search}%' or i.nombre ilike '%${search}%' or r.nombre ilike '%${search}%'
+	ORDER BY r.rol_id`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -184,12 +187,7 @@ const searchUser = ({ params }, res) => {
       return
     }
 
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-      return
-    }
-
-    res.json({ ok: true, usuarios: result.rows })
+    res.json({ ok: true, result: result.rows })
     return
   })
 }
