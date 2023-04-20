@@ -61,10 +61,41 @@ const updateExpediente = ({ body, params }, res) => {
   })
 }
 
-const searchExpediente = ({ params }, res) => {
-  const { search } = params
-  const query = `select * from expediente
-  where nombre ilike '%${search}%' or dpi ilike '%${search}%' or estado ilike '%${search}%' or direccion ilike '%${search}%'`
+const searchExpedienteByDPI = ({ params }, res) => {
+  const { dpi } = params
+  const query = `select * from expediente_paciente_dpi('${dpi}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const searchExpedienteByName = ({ params }, res) => {
+  const { text } = params
+  const query = `select * from expediente_paciente_nombre('${text}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const searchExpedienteByState = ({ params }, res) => {
+  const { text } = params
+  const query = `select * from expediente_paciente_estado('${text}');`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -103,6 +134,8 @@ export {
   getExpedientes,
   newExpediente,
   updateExpediente,
-  searchExpediente,
+  searchExpedienteByDPI,
+  searchExpedienteByName,
+  searchExpedienteByState,
   removeExpediente
 }

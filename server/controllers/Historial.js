@@ -2,10 +2,8 @@ import db from '../services/DBConnection.js'
 
 const getHistorial = ({ params }, res) => {
   const { dpi } = params
-  const query = `select dpi, fechahora_atencion, altura, peso, imc, precedentes, nombre as institucion, resultado, evolucion from historial
-	NATURAL JOIN institucion
-	where dpi = $1;`
-  db.query(query, [dpi], (err, result) => {
+  const query = `select * from historial_paciente_dpi('${dpi}');`
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -21,15 +19,123 @@ const getHistorial = ({ params }, res) => {
   })
 }
 
-const searchHistorial = ({ params }, res) => {
+const searchHistorialByDate = ({ params, body }, res) => {
   console.log(params)
-  const { dpi, search } = params
-  const query = `select dpi, fechahora_atencion, altura, peso, imc, precedentes, nombre as institucion, resultado, evolucion from historial
-	natural join institucion
-	where dpi = $1 and (institucion.nombre ilike '%${search}%'
-	or resultado ilike '%${search}%' or evolucion ilike '%${search}%');`
+  const { dpi } = params
+  const { date1, date2 } = body
+  const query = `select * from historial_fecha('${dpi}', '${date1}', '${date2}');`
 
-  db.query(query, [dpi], (err, result) => {
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
+    }
+
+    res.json({ ok: true, historiales: result.rows })
+    return
+  })
+}
+
+const searchHistorialByInstitution = ({ params }, res) => {
+  console.log(params)
+  const { dpi, institution } = params
+  const query = `select * from historial_nombre_institucion('${dpi}', '${institution}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
+    }
+
+    res.json({ ok: true, historiales: result.rows })
+    return
+  })
+}
+
+const searchHistorialByMunicipio = ({ params }, res) => {
+  console.log(params)
+  const { dpi, municipio } = params
+  const query = `select * from historial_municipio_institucion('${dpi}', '${municipio}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
+    }
+
+    res.json({ ok: true, historiales: result.rows })
+    return
+  })
+}
+
+const searchHistorialByDepartamento = ({ params }, res) => {
+  console.log(params)
+  const { dpi, departamento } = params
+  const query = `select * from historial_departamento_institucion('${dpi}', '${departamento}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
+    }
+
+    res.json({ ok: true, historiales: result.rows })
+    return
+  })
+}
+
+const searchHistorialByMedico = ({ params }, res) => {
+  console.log(params)
+  const { dpi, medico } = params
+  const query = `select * from historial_nombre_medico('${dpi}', '${medico}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    if (result.rows.length === 0) {
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
+    }
+
+    res.json({ ok: true, historiales: result.rows })
+    return
+  })
+}
+
+const searchHistorialByEspMedico = ({ params }, res) => {
+  console.log(params)
+  const { dpi, espmedico } = params
+  const query = `select * from historial_especialidad_medico('${dpi}', '${espmedico}');`
+
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -48,5 +154,10 @@ const searchHistorial = ({ params }, res) => {
 
 export {
   getHistorial,
-  searchHistorial
+  searchHistorialByDate,
+  searchHistorialByInstitution,
+  searchHistorialByMunicipio,
+  searchHistorialByDepartamento,
+  searchHistorialByMedico,
+  searchHistorialByEspMedico
 }

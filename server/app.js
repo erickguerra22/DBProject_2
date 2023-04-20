@@ -10,6 +10,7 @@ import InstitutionRoute from './routes/institution.route.js'
 import AddictionRoute from './routes/adiccion.route.js'
 import RecordRoute from './routes/expediente.route.js'
 import BinnacleRoute from './routes/binnacle.route.js'
+import ReportRoute from './routes/reportes.route.js'
 import HistoryRoute from './routes/historial.route.js'
 import CellarRoute from './routes/bodega.route.js'
 import RoleRoute from './routes/rol.route.js'
@@ -47,7 +48,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', UserRoute)
 app.use('/binnacle', BinnacleRoute)
-//app.use('/report', ReportRoute)
+app.use('/report', ReportRoute)
 app.use('/record', RecordRoute)
 app.use('/history', HistoryRoute)
 app.use('/cellar', CellarRoute)

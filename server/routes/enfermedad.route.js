@@ -3,6 +3,6 @@ import { getEnfermedades } from '../controllers/Enfermedad.js';
 
 const router = express.Router();
 
-router.get("/:historial", getEnfermedades)
+router.get("/:id", getEnfermedades)
 
 export default router
