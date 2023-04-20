@@ -22,9 +22,11 @@ const Page = () => {
       <Route path="/sign-up">
         {authToken ? <Redirect to="/" /> : <SignUp />}
       </Route>
+
       <Route path="/">
         {authToken ? <Home /> : <Redirect to="/log-in" />}
       </Route>
+      
     </Switch>
   )
 }

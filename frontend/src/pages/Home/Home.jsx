@@ -8,6 +8,7 @@ import Profile from '../../components/Profile/Profile'
 import Tabla from '../../components/Tabla/Tabla'
 import server from '../../services/server'
 
+
 const Home = () => {
   const [busqueda, setBusqueda] = useState('')
   const userData = JSON.parse(localStorage.getItem('user-data'))
@@ -34,6 +35,7 @@ const Home = () => {
 
   if (list.length === 0) return (<Loading />)
 
+  console.log(list[1])
   return (
     <div style={{ height: '100%' }}>
       <NavBar />
