@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './Home.css'
+import './Assignment.css'
 // eslint-disable-next-line import/no-cycle
 import NavBar from '../../components/NavBar/NavBar'
 import Loading from '../../components/Loading/Loading'
@@ -8,19 +8,17 @@ import Profile from '../../components/Profile/Profile'
 import Tabla from '../../components/Tabla/Tabla'
 import server from '../../services/server'
 
-
-const Home = () => {
+const Assignment = () => {
   const randomColor = localStorage.getItem('random-color')
   const [busqueda, setBusqueda] = useState('')
   const userData = JSON.parse(localStorage.getItem('user-data'))
   // eslint-disable-next-line no-nested-ternary
-  const param = userData.rol_id === 1 ? 'user' : userData.rol_id === 2 ? 'record' : `store/${userData.institucion_id}`
-  document.getElementById('title').innerHTML = 'Página principal'
+  document.getElementById('title').innerHTML = 'Bitácora'
   const [list, setList] = useState([])
 
-  const fetchBodega = async () => {
+  const fetchAssignment = async () => {
     setList([])
-    const response = await fetch(`${server}/${param}/${busqueda}`)
+    const response = await fetch(`${server}/assignment/${busqueda}`)
     const json = await response.json()
     setList(json.result)
   }
@@ -30,21 +28,20 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchBodega()
+    fetchAssignment()
   }, [busqueda])
 
-  if (userData.rol_id === 0) {
+  if (userData.rol_id !== 1) {
     return (
       <div>
         <NavBar />
-        <Alert title="Permiso denegado" text="No cuentas con un rol asignado, contacta con un administrador para que se te sean concedidos permisos en la página." />
+        <Alert title="Permiso denegado" text="Solo los usuarios adiministradores pueden acceder a esta página." />
       </div>
     )
   }
 
   if (list.length === 0) return (<Loading />)
 
-  console.log(list[1])
   return (
     <div style={{ height: '100%' }}>
       <NavBar />
@@ -57,11 +54,10 @@ const Home = () => {
             <button className="searchButton" onClick={() => handleSearch()}>S</button>
           </div>
         </div>
-        <Tabla arr={list} />
-        <button className="floatButton">+</button>
+        <Tabla arr={list} detail={false} />
       </div>
     </div>
   )
 }
 
-export default Home
+export default Assignment

@@ -1,4 +1,4 @@
 /* eslint-disable import/no-cycle */
-import Home from './Home'
+import Home from './Binnacle'
 
 export default Home
