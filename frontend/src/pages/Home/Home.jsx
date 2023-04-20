@@ -3,17 +3,17 @@ import './Home.css'
 // eslint-disable-next-line import/no-cycle
 import NavBar from '../../components/NavBar/NavBar'
 import Loading from '../../components/Loading/Loading'
-
+import Alert from '../../components/Alert/Alert'
 import Profile from '../../components/Profile/Profile'
 import Tabla from '../../components/Tabla/Tabla'
 import server from '../../services/server'
 
 const Home = () => {
+  const randomColor = localStorage.getItem('random-color')
   const [busqueda, setBusqueda] = useState('')
   const userData = JSON.parse(localStorage.getItem('user-data'))
   // eslint-disable-next-line no-nested-ternary
   const param = userData.rol_id === 1 ? 'user' : userData.rol_id === 2 ? 'record' : 'store'
-  const randomColor = `rgb(${(Math.floor(Math.random() * 200))},${(Math.floor(Math.random() * 200))},${(Math.floor(Math.random() * 200))})`
   document.getElementById('title').innerHTML = 'Página principal'
   const [list, setList] = useState([])
 
@@ -31,6 +31,15 @@ const Home = () => {
   useEffect(() => {
     fetchUser()
   }, [busqueda])
+
+  if (userData.rol_id === 0) {
+    return (
+      <div>
+        <NavBar />
+        <Alert title="Permiso denegado" text="No cuentas con un rol asignado, contacta con un administrador para que se te sean concedidos permisos en la página." />
+      </div>
+    )
+  }
 
   if (list.length === 0) return (<Loading />)
 
