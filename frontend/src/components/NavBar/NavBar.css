@@ -1,3 +1,118 @@
-.navBar{
-    
+.navBar {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Agency FB';
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 13%;
+    padding: 10px 30px;
+    box-shadow: 0px 10px 16px -8px rgba(0, 0, 0, 0.2);
+}
+
+.navBar img {
+    height: 70px;
+    margin-right: 10px;
+}
+
+.navBar h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 50px;
+    font-weight: normal;
+}
+
+.options {
+    font-size: 30px;
+    color:black;
+    background: none;
+    @media(max-width: 768px) {
+        display: none;
+    }
+}
+
+.options.active {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:white;
+    justify-content: center;
+    width: 100vw;
+    margin: 0;
+    height: 100vh;
+    top: 0;
+    left: -10px;
+    font-size: 40px;
+
+    @media(min-width: 768px) {
+        position: relative;
+        background: none;
+        left: 0;
+        height: auto;
+        color:black;
+        display: block;
+        font-size: 30px;
+        width: auto;
+        margin: auto;
+    }
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+}
+
+.navBarContent {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.navBarContent button {
+    font-size: 20px;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 5px;
+    font-family: ddg-serp-icons;
+    background: none;
+    color: black;
+    margin: none;
+    padding: none;
+    color: #094A42;
+    font-weight: lighter;
+}
+
+.navBarContent button:hover {
+    border: none;
+    color: rgb(156, 73, 73);
+}
+
+.more {
+    @media(min-width: 768px) {
+        display: none;
+    }
+}
+
+.menuBackground{
+    position:absolute;
+    background-color: #00A364;
+    width: 100vw;
+    height: 100vh;
+    top:-700px;
+    left:-1000px;
+    z-index: -1;
+    transition: all .6s ease;
+    @media(min-width: 768px) {
+        display: none;
+    }
+}
+
+.menuBackground.active{
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0 0 60% 0;
 }

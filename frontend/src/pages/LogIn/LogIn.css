@@ -43,18 +43,6 @@
     margin-left: 10px;
 }
 
-.logIn input {
-    background: 0;
-    outline: none;
-    border: none;
-    width: 100%;
-    border-bottom: 2px solid;
-    border-bottom-color: #132612;
-    margin: 10px 0;
-    padding: 5px 0;
-    font-size: 15px;
-}
-
 .logIn p,
 label {
     margin: 0;
@@ -84,20 +72,4 @@ label {
     width: 100%;
     justify-content: space-around;
     margin-top: 20px;
-}
-
-.logIn button {
-    background: #094A42;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    height: 30px;
-    width: 130px;
-    cursor: pointer;
-}
-
-.logIn button:hover {
-    background: white;
-    color: #094A42;
-    border: solid 1px #094A42;
 }

@@ -1,8 +1,10 @@
 import express from 'express'
-import { getInstitutions } from '../controllers/Institucion.js';
+import { createInstitution, getInstituciones, updateInstitucion } from '../controllers/Institucion.js';
 
 const router = express.Router();
 
-router.get("/", getInstitutions)
+router.post("/new", createInstitution)
+router.put("/update/:institucion", updateInstitucion)
+router.get("/", getInstituciones)
 
 export default router

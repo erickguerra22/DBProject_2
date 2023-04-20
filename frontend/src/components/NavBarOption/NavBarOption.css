@@ -1,0 +1,10 @@
+.option {
+    text-decoration: none;
+    margin-left: 20px;
+    color:inherit;
+}
+
+.option:hover{
+    text-decoration: underline;
+    color: #0b554c;
+}

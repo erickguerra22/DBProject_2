@@ -15,7 +15,7 @@
     box-sizing: border-box;
     background: white;
     width: 400px;
-    height: 400px;
+    height: fit-content;
     display: flex;
     justify-content: center;
 }
@@ -55,43 +55,6 @@
     padding: 10px;
 }
 
-.signUp input {
-    background: 0;
-    outline: none;
-    border: none;
-    width: 100%;
-    border-bottom: 2px solid;
-    border-bottom-color: #132612;
-    margin-top: 15px;
-    padding: 5px 0;
-    font-size: 15px;
-}
-
-.signUp input::placeholder {
-    font-size: 13px;
-}
-
-.signUp select {
-    appearance: none;
-    outline: none;
-    width: 100%;
-    font-family: Calibri;
-    margin: 15px 0 0 0;
-    font-size: 16px;
-    padding: 3px 5px;
-    cursor: pointer;
-    border: 1px solid #094A42;
-    border-radius: 5px;
-    color: #757575;
-    font-weight: 500;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='16' fill='%23094a42' class='bi bi-caret-down' viewBox='2 0 17 16'><path d='M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z'/></svg>") no-repeat;
-    background-position: right center;
-}
-
-.signUp option{
-    color:black;
-}
-
 .signUp p {
     font-family: Calibri;
     font-size: 13px;
@@ -118,20 +81,4 @@
     width: 100%;
     justify-content: space-around;
     margin-top: 20px;
-}
-
-.signUp button {
-    background: #094A42;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    height: 30px;
-    width: 130px;
-    cursor: pointer;
-}
-
-.signUp button:hover {
-    background: white;
-    color: #094A42;
-    border: solid 1px #094A42;
 }
