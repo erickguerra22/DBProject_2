@@ -33,6 +33,7 @@ const Page = () => {
       <Route path="/">
         {authToken ? <Home /> : <Redirect to="/log-in" />}
       </Route>
+
     </Switch>
   )
 }

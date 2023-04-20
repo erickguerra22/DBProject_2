@@ -8,6 +8,7 @@ import Profile from '../../components/Profile/Profile'
 import Tabla from '../../components/Tabla/Tabla'
 import server from '../../services/server'
 
+
 const Home = () => {
   const randomColor = localStorage.getItem('random-color')
   const [busqueda, setBusqueda] = useState('')
@@ -43,6 +44,7 @@ const Home = () => {
 
   if (list.length === 0) return (<Loading />)
 
+  console.log(list[1])
   return (
     <div style={{ height: '100%' }}>
       <NavBar />
