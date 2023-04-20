@@ -20,6 +20,7 @@ import TreatmentRoute from './routes/tratamiento.route.js'
 import DiseaseRoute from './routes/enfermedad.route.js'
 import MedicineRoute from './routes/medicamento.route.js'
 import ProcedureRoute from './routes/procedimiento.route.js'
+import EspecialityRoute from './routes/especiality.route.js'
 
 const app = express()
 
@@ -58,3 +59,4 @@ app.use('/treatment', TreatmentRoute)
 app.use('/disease', DiseaseRoute)
 app.use('/medicine', MedicineRoute)
 app.use('/procedure', ProcedureRoute)
+app.use('/especiality', EspecialityRoute)

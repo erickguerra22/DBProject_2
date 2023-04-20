@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Profile.css'
 import PropTypes from 'prop-types'
 import server from '../../services/server'
@@ -7,14 +7,34 @@ const Profile = ({ randomColor }) => {
   const userData = JSON.parse(localStorage.getItem('user-data'))
   const fechaEntrada = new Date(userData.fecha_entrada)
   const [profileActive, setProfileActive] = useState(false)
+  const [especialities, setEspecialities] = useState([])
+
+  const fetchEspecialities = async () => {
+    const response = await fetch(`${server}/especiality`)
+    const json = await response.json()
+    setEspecialities(json.especialidades)
+  }
+
+  useEffect(() => {
+    fetchEspecialities()
+  }, [])
+
+  const handleSelect = () => {
+    document.getElementById('especiality').style.color = 'black'
+  }
 
   const cancel = () => {
     document.getElementById('nombre').disabled = true
     document.getElementById('phone').disabled = true
     document.getElementById('email').disabled = true
+    document.getElementById('nombre').value = document.getElementById('nombre').placeholder
+    document.getElementById('phone').value = document.getElementById('phone').placeholder
     if (userData.rol_id === 2) {
       document.getElementById('address').disabled = true
       document.getElementById('especiality').disabled = true
+      document.getElementById('address').value = document.getElementById('address').placeholder
+      //document.getElementById('especiality')
+      document.querySelector('select').selectedIndex = 0
     }
     document.getElementById('editar').style.display = 'inline'
     document.getElementById('cancelar').style.display = 'none'
@@ -40,6 +60,7 @@ const Profile = ({ randomColor }) => {
       telefono: document.getElementById('phone').value,
       rol: userData.rol_id,
       direccion: document.getElementById('address').value,
+      especialidad: document.getElementById('especiality').value,
     }
 
     const response = await fetch(`${server}/user/update/${userData.username}`, {
@@ -60,6 +81,7 @@ const Profile = ({ randomColor }) => {
     userData.email = responseJSON.userData.email
     userData.telefono = responseJSON.userData.telefono
     userData.direccion = responseJSON.userData.direccion
+    userData.especialidad = document.getElementById(`${document.getElementById('especiality').value}`).innerHTML
     localStorage.setItem('user-data', JSON.stringify(userData))
   }
 
@@ -68,9 +90,13 @@ const Profile = ({ randomColor }) => {
     document.getElementById('nombre').disabled = false
     document.getElementById('phone').disabled = false
     document.getElementById('email').disabled = false
+    document.getElementById('nombre').placeholder = document.getElementById('nombre').defaultValue
+    document.getElementById('phone').placeholder = document.getElementById('phone').defaultValue
+    document.getElementById('email').placeholder = document.getElementById('email').defaultValue
     if (userData.rol_id === 2) {
       document.getElementById('address').disabled = false
       document.getElementById('especiality').disabled = false
+      document.getElementById('address').placeholder = document.getElementById('address').defaultValue
     }
     document.getElementById('editar').style.display = 'none'
     document.getElementById('cancelar').style.display = 'inline'
@@ -85,7 +111,7 @@ const Profile = ({ randomColor }) => {
         <div className="profileLogo" style={{ background: `${randomColor}` }}>
           <p>{userData.nombre[0].toUpperCase()}</p>
         </div>
-        <p>{userData.rol_id === 2 ? `No. colegiado: ${userData.no_colegiado}` : ''}</p>
+        <p style={{ marginTop: '10px' }}>{userData.rol_id === 2 ? `No. colegiado: ${userData.no_colegiado}` : ''}</p>
         <div className="info">
           <label htmlFor="nombre">
             <input name="nombre" id="nombre" required disabled defaultValue={`${userData.nombre}`} />
@@ -112,9 +138,15 @@ const Profile = ({ randomColor }) => {
             userData.rol_id === 2
             && (
               <label htmlFor="especiality">
-                <input name="especiality" id="especiality" required disabled defaultValue={`${userData.especialidad}`} />
+                <select name="especiality" id="especiality" disabled defaultValue="" title="Selecciona una especialidad" onChange={handleSelect} required>
+                  <option value="" disabled hidden>{userData.especialidad}</option>
+                  {// eslint-disable-next-line camelcase
+                    especialities.map(({ especialidad_id, nombre }) => <option key={especialidad_id} id={especialidad_id} value={especialidad_id}>{nombre}</option>)
+                  }
+                </select>
                 Especialidad
               </label>
+
             )
           }
           <label htmlFor="role">

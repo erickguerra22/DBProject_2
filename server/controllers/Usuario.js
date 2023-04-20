@@ -98,7 +98,7 @@ const logIn = ({ body }, res) => {
 }
 
 const updateUsuario = ({ body, params }, res) => {
-  const { email, nombre, telefono, rol, direccion } = body
+  const { email, nombre, telefono, rol, direccion, especialidad } = body
   const { username } = params
   const fields = [email.trim(), nombre.trim(), telefono.trim(), rol, username.trim()]
 
@@ -117,10 +117,10 @@ const updateUsuario = ({ body, params }, res) => {
     }
     const updatedUser = result.rows[0]
 
-    if (direccion !== undefined) {
-      const newQuery = 'UPDATE medico SET direccion = $1 WHERE usuario = $2 RETURNING direccion;'
+    if (direccion !== undefined || especialidad !== undefined) {
+      const newQuery = 'UPDATE medico SET direccion = $1, especialidad_id = $2 WHERE usuario = $3 RETURNING direccion;'
 
-      db.query(newQuery, [direccion.trim(), username.trim()], (err, newResult) => {
+      db.query(newQuery, [direccion.trim(), especialidad, username.trim()], (err, newResult) => {
         if (err) {
           res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
           return

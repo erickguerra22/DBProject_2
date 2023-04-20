@@ -73,9 +73,15 @@
     margin: 0 10px;
 }
 
-.info input {
+.info input, .info select {
     width: fit-content;
     display: block;
+}
+
+.info select{
+    margin-bottom: 10px;
+    width: 100%;
+    color:black;
 }
 
 .info input::placeholder {

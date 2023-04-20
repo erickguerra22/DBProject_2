@@ -14,7 +14,9 @@ const Home = () => {
       <NavBar />
       <div className="home">
         <Profile randomColor={randomColor} />
-        <List />
+        {
+          //<List />
+        }
       </div>
     </div>
   )
