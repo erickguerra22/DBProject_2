@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { navigate } from '../../pages/index'
 import './Tabla.css'
 
-const Tabla = ({ arr }) => {
+const Tabla = ({ arr, detail }) => {
   // eslint-disable-next-line no-unused-vars
   const [state, setState] = React.useState(arr)
   const keys = Object.keys(state[0])
@@ -20,33 +20,44 @@ const Tabla = ({ arr }) => {
       <tbody className="listBody">
         <tr key="header" className="header">
           {keys.map((key) => (<th key={key}>{key}</th>))}
-          <th>Detalle</th>
+          {
+            detail
+            && <th>Detalle</th>
+          }
         </tr>
         {
           state.map((item, index) => {
-            if (Object.values(item)[0] === userData.username)
-              return (<></>)
+            // eslint-disable-next-line react/jsx-no-useless-fragment
+            if (Object.values(item)[0] === userData.username) return (<></>)
             return (
-              <tr className={`${(Object.values(item).indexOf('No asignado') > -1 || Object.values(item).indexOf(null) > -1) ? 'noAsignado' : ''}`} key={item.username}>
+              <tr className={`${(Object.values(item).indexOf('No asignado') > -1) ? 'noAsignado' : ''}`} key={item.username}>
                 {
                   Object.values(item).map((value, eIndex) => {
                     // eslint-disable-next-line no-param-reassign
-                    if (keys[eIndex] === 'Fecha de entrada' && !value) value = 'N/A'
-                    if (keys[eIndex] === 'Fecha de entrada' && value !== 'N/A') {
+                    if (keys[eIndex].toLowerCase().includes('fecha') && value) {
                       const date = new Date(value)
                       // eslint-disable-next-line no-param-reassign
                       value = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+                      if (keys[eIndex].toLowerCase().includes('hora')) {
+                        // eslint-disable-next-line no-param-reassign
+                        value += ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+                      }
                     }
                     return (
                       <td key={keys[index]}>
-                        {value || 'No asignado'}
+                        {(value === null && value !== 0) ? 'N/A' : value}
                       </td>
                     )
                   })
                 }
-                <td>
-                  <button onClick={() => handleClick(index)} className="tableBTN">I</button>
-                </td>
+                {
+                  detail
+                  && (
+                    <td>
+                      <button onClick={() => handleClick(index)} className="tableBTN">n</button>
+                    </td>
+                  )
+                }
               </tr>
             )
           })
@@ -56,8 +67,13 @@ const Tabla = ({ arr }) => {
   )
 }
 
+Tabla.defaultProps = {
+  detail: true,
+}
+
 Tabla.propTypes = {
   arr: PropTypes.arrayOf(String).isRequired,
+  detail: PropTypes.bool,
 }
 
 export default Tabla

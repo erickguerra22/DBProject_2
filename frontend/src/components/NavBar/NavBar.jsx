@@ -14,15 +14,14 @@ const NavBar = () => {
     case 1:
       options.push({ nombre: 'Usuarios', link: '/' })
       options.push({ nombre: 'Bitácora', link: '/binnacle' })
-      options.push({ nombre: 'Instituciones', link: '/institutions' })
-      options.push({ nombre: 'Médicos', link: '/doctors' })
+      options.push({ nombre: 'Asignaciones', link: '/assignments' })
       options.push({ nombre: 'Reportes', link: '/reports' })
       break
     case 2:
-      options.push({ nombre: 'Expedientes', link: '/files' })
+      options.push({ nombre: 'Expedientes', link: '/' })
       break
     case 3:
-      options.push({ nombre: 'Bodega', link: '/store' })
+      options.push({ nombre: 'Bodega', link: '/' })
       break
     default:
       useEffect(() => {

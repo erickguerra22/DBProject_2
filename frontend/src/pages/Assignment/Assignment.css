@@ -46,15 +46,3 @@
     font-family: ddg-serp-icons;
     border-radius: 0 10px 10px 0;
 }
-
-.floatButton{
-    position: absolute;
-    top:88%;
-    left:93%;
-    width: 60px;
-    height: 60px;
-    text-align: center;
-    padding: 0 15px;
-    font-size: 30px;
-    border-radius: 100%;
-}
