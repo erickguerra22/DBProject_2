@@ -1,0 +1,35 @@
+table, th, td{
+    border: 1px solid;
+    overflow-wrap: normal;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+Table{
+    background-color: beige;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    border-collapse: collapse;
+    width: 80%;
+    max-height: 100%;
+    display: block;
+    overflow-y: scroll;
+    padding: auto;
+    
+}
+th{
+    position: sticky;
+    top:0;
+    background: papayawhip;
+}
+td{
+    max-width: 50%;
+    text-align: center;
+}
+tr:nth-child(even){
+    background-color: cornsilk;
+} 
+
+.ifnull{
+    border: 2px solid;
+    border-color: red;
+}
