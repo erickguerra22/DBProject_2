@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from '../../pages/index'
 import './Tabla.css'
 
 
@@ -16,8 +17,9 @@ const Tabla = ({ arr }) => {
       {state.map((item) => (
         <tr key={item.id}>
           {Object.values(item).map((val) => (
-            <td className={`${!val ? 'ifnull' : ''  }`}>{`${!val ? 'no asignado' : val  }`}</td>) )}
+            <td className={`${!val ? 'ifnull' : ''  }`} onClick={() => navigate('hola')}  >{`${!val ? 'no asignado' : val  }`}</td>) )}
         </tr>
+        
       ))}
     </table>
     )
