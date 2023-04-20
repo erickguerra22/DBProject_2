@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import './SignUp.css'
 import { useAuth } from '../../services/Auth'
 import server from '../../services/server'
@@ -42,13 +43,17 @@ const SignUp = () => {
       email,
       password,
       institution,
+      nombre,
+      telefono,
     } = event.target
 
     const body = {
       username: username.value,
       email: email.value,
       pass: password.value,
-      rol_id: 0, // Todos los usuarios registrados tienen rol de "manager"
+      rol_id: 0, // Todos los usuarios registrados tienen rol "no asignado"
+      nombre: nombre.value,
+      telefono: telefono.value,
       institucion_id: institution.value,
     }
 
@@ -78,6 +83,8 @@ const SignUp = () => {
             <img src="/favicon.svg" alt="logo" />
             <h2>Nuevo Usuario</h2>
           </div>
+          <input id="nombre" placeholder="Nombre" title="" required />
+          <input id="telefono" placeholder="Número de teléfono" type="number" title="" required />
           <input id="username" placeholder="Nombre de usuario" title="" required />
           <input id="email" placeholder="Correo electrónico" type="email" title="" required />
           <input id="password" type="password" placeholder="Contraseña" title="" required />
@@ -85,13 +92,13 @@ const SignUp = () => {
           <select id="institution" defaultValue="" title="Selecciona una institución" onChange={handleSelect} required>
             <option value="" disabled hidden>Institución a la que pertenece</option>
             {// eslint-disable-next-line camelcase
-              institutions.map(({ institucion_id, nombre }) => <option key={institucion_id} value={institucion_id}>{nombre}</option>)
+              institutions.map(({ institucion_id, institucion }) => <option key={institucion_id} value={institucion_id}>{institucion}</option>)
             }
           </select>
           <p id="result" />
           <p>
             ¿Ya tienes una cuenta?
-            <a href="/log-in"> ¡Inicia sesión aquí!</a>
+            <Link to="/log-in"> ¡Inicia sesión aquí!</Link>
           </p>
           <div className="submit">
             <button type="submit">Crear usuario</button>

@@ -3,6 +3,6 @@ import { getAdicciones } from '../controllers/Adiccion.js';
 
 const router = express.Router();
 
-router.get("/", getAdicciones)
+router.get("/:historial", getAdicciones)
 
 export default router

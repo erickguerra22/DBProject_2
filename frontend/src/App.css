@@ -1,3 +1,24 @@
+@font-face{
+  font-family: iconText;
+  src: url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+}
+
 .app{
   height: 100%;
+}
+
+button {
+  background: #094A42;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  height: 30px;
+  width: 130px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: white;
+  color: #094A42;
+  border: solid 1px #094A42;
 }
