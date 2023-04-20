@@ -10,12 +10,11 @@ Table{
     margin-top: 15px;
     border-collapse: collapse;
     width: 80%;
-    height: 500px;
+    max-height: 500px;
     display: block;
     overflow-y: scroll;
     padding: auto;
-    z-index: -2;
-    position: relative;
+    
 }
 th{
     position: sticky;
