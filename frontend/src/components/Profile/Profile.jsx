@@ -33,7 +33,6 @@ const Profile = ({ randomColor }) => {
       document.getElementById('address').disabled = true
       document.getElementById('especiality').disabled = true
       document.getElementById('address').value = document.getElementById('address').placeholder
-      //document.getElementById('especiality')
       document.querySelector('select').selectedIndex = 0
     }
     document.getElementById('editar').style.display = 'inline'
