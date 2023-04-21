@@ -9,13 +9,13 @@ const PacienteDetalle = ({ patient, onClose }) => {
   const [historiales, setHistoriales] = useState([])
 
   const fetchPatient = async () => {
-    const response = await fetch(`${server}/record/expediente/${patient}`)
+    const response = await fetch(`${server}/record/dpi/${patient}`)
     const json = await response.json()
     setPaciente(json.result[0])
   }
 
   const fetchHistories = async () => {
-    const response = await fetch(`${server}/history/${patient}`)
+    const response = await fetch(`${server}/history/dpi/${patient}`)
     const json = await response.json()
     setHistoriales(json.historiales)
   }
