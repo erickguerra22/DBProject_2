@@ -18,9 +18,12 @@ const getRoles = (req, res) => {
 }
 
 const createRole = ({ body }, res) => {
-  const { rol } = body
+  const { nombre } = body
+  console.log(body)
+  console.log(nombre)
+  const query = `INSERT INTO rol VALUES (DEFAULT, '${nombre}');`
 
-  db.query('INSERT INTO rol VALUES(DEFAULT, $1);', [rol], (err, result) => {
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })

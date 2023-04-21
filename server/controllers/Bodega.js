@@ -60,13 +60,13 @@ const searchBodega = ({ params }, res) => {
 
 const updateSuministro = ({ body, params }, res) => {
   const { cantidad } = body
-  const { id_institucion, id_suministro } = params
+  const { id_i, id_s } = params
 
-  const query = `update bodega b set cantidad = $3
-    where b.institucion_id = $1 and b.suministro_id = $2
+  const query = `update bodega b set cantidad = $2
+    where b.institucion_id = $1 and b.suministro_id = '${id_s.trim().toUpperCase()}'
     returning b.institucion_id, b.suministro_id, b.cantidad;`
 
-  db.query(query, [id_institucion, id_suministro.trim().toUpperCase(), cantidad], (err, result) => {
+  db.query(query, [id_i, cantidad], (err, result) => {
     if (err) {
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
       return
