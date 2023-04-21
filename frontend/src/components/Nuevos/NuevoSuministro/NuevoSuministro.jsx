@@ -32,8 +32,6 @@ const NuevoSuministro = ({ onClose }) => {
     })
     const responseJSON = await response.json()
 
-    console.log(responseJSON)
-
     if (responseJSON.ok === false) {
       document.getElementById('newResult').innerHTML = responseJSON.error
       document.getElementById('newResult').style.color = 'red'

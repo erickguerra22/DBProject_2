@@ -24,10 +24,12 @@ const DropdownMenu = ({ hidden }) => {
         opacity: `${hidden ? 0 : 1}`,
       }}
     >
-      {avisos.map(({ nombre, cantidad, fecha_vencimiento }) => {
-        const date = new Date(fecha_vencimiento)
-        return <ListElement text={`¡Aviso! Revisar el suministro de ${nombre}. Quedan ${cantidad} y vence el ${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} />
-      })}
+      {// eslint-disable-next-line camelcase
+        avisos.map(({ nombre, cantidad, fecha_vencimiento }) => {
+          const date = new Date(fecha_vencimiento)
+          return <ListElement text={`¡Aviso! Revisar el suministro de ${nombre}. Quedan ${cantidad} disponibles y vence el ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`} />
+        })
+      }
     </ul>
   )
 }

@@ -10,6 +10,7 @@ const TratamientoDetalle = ({ treatment, onClose }) => {
   const [medicamentos, setMedicamentos] = useState([])
 
   const fetchTreatment = async () => {
+    setTratamiento([])
     if (treatment.trim() === '') return
     const response = await fetch(`${server}/treatment/detail/${treatment}`)
     const json = await response.json()
@@ -17,6 +18,7 @@ const TratamientoDetalle = ({ treatment, onClose }) => {
   }
 
   const fetchProcedures = async () => {
+    setProcedimientos([])
     if (treatment.trim() === '') return
     const response = await fetch(`${server}/treatment/procedures/${treatment}`)
     const json = await response.json()
@@ -24,6 +26,7 @@ const TratamientoDetalle = ({ treatment, onClose }) => {
   }
 
   const fetchMedicines = async () => {
+    setMedicamentos([])
     if (treatment.trim() === '') return
     if (treatment === undefined) return
     const response = await fetch(`${server}/treatment/medicines/${treatment}`)

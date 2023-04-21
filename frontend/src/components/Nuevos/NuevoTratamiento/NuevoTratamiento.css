@@ -1,7 +1,7 @@
-.historial {
+.slideContainer {
     max-width: 100%;
-    width: 460px;
-    padding: 50px;
+    width: fit-content;
+    position:relative;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -13,47 +13,72 @@
     z-index: 10;
 }
 
+.slideCard {
+    padding: 45px;
+    padding-left: 30px;
+}
+
 .info {
     display: inline-block;
     margin: 10px 0;
 }
 
-.info input, .info select {
+.info input,
+.info select {
     width: fit-content;
     display: block;
 }
 
-.info select{
+.info select {
     margin-bottom: 10px;
     width: 100%;
-    color:black;
+    color: black;
 }
 
 .info input::placeholder {
     font-size: 15px;
 }
 
-.titulo{
+.titulo {
     margin: 0;
     font-size: larger;
     font: bolder;
 }
 
-.expediente label {
+.slideContainer label {
     width: 45%;
     display: inline-block;
     margin: 0 10px;
 }
 
-.actions {
+.slideContainer .actions {
     display: flex;
-    width: 70%;
+    width: 100%;
     justify-content: space-around;
 }
 
-.historial .info .checkbox{
+.slideContainer select {
+    width: 100%
+}
+
+.slideContainer h1 {
+    text-align: center;
+}
+
+.slideChanger {
+    background: rgb(32, 30, 30);
     display: inline;
-    margin-right: 10px;
-    cursor:pointer;
-    margin-left: 10px;
+    border-radius: 100%;
+    color: white;
+    font-family: ddg-serp-icons;
+    height: 25px;
+    width: 25px;
+    font-size: 10px;
+}
+
+.controllers {
+    position:absolute;
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
 }

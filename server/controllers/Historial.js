@@ -164,6 +164,74 @@ const newHistorial = ({ params, body }, res) => {
   })
 }
 
+const getDiseases = ({ params }, res) => {
+  const { historial, search } = params
+  const searchVal = search || ''
+  const query = `select nombre "Enfermedad padecida" from enfermedad_padecida
+  NATURAL JOIN enfermedad where historial_id = $1
+  and nombre ilike '%${searchVal}%'`
+  db.query(query, [historial], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const getAdictions = ({ params }, res) => {
+  const { historial, search } = params
+  const searchVal = search || ''
+  const query = `select sustancia "Adicción padecida" from adiccion_padecida
+  NATURAL JOIN adiccion where historial_id = $1
+  and sustancia ilike '%${searchVal}%'`
+  db.query(query, [historial], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const newDisease = ({ params, body }, res) => {
+  const { historial } = params
+  const { enfermedad } = body
+  const query = `INSERT INTO enfermedad_padecida VALUES($1,$2);`
+  db.query(query, [historial, enfermedad], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true })
+    return
+  })
+}
+
+const newAddiction = ({ params, body }, res) => {
+  const { historial } = params
+  const { sustancia } = body
+  const query = `INSERT INTO adiccion_padecida VALUES($1,$2);`
+  db.query(query, [historial, sustancia], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true })
+    return
+  })
+}
+
 export {
   getHistorial,
   searchHistorialByDate,
@@ -172,5 +240,9 @@ export {
   searchHistorialByDepartamento,
   searchHistorialByMedico,
   searchHistorialByEspMedico,
-  newHistorial
+  newHistorial,
+  getDiseases,
+  getAdictions,
+  newDisease,
+  newAddiction
 }

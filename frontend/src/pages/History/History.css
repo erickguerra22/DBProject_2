@@ -1,4 +1,4 @@
-.home {
+.historyDetail {
     height: 87%;
     display: flex;
     padding: 10px;
@@ -45,4 +45,12 @@
     padding: 0 15px;
     font-family: ddg-serp-icons;
     border-radius: 0 10px 10px 0;
+}
+
+.historyDetail h2{
+    margin:0;
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    border-bottom: 1px solid;
 }

@@ -7,7 +7,7 @@ import server from '../../services/server'
 
 const LogIn = () => {
   const randomColor = `rgb(${(Math.floor(Math.random() * 200))},${(Math.floor(Math.random() * 200))},${(Math.floor(Math.random() * 200))})`
-  localStorage.setItem('random-color',randomColor)
+  localStorage.setItem('random-color', randomColor)
   document.getElementById('title').innerHTML = 'Iniciar sesión'
   const { setAuthToken } = useAuth()
 

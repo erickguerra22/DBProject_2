@@ -47,10 +47,6 @@ input {
     margin: 0 10px;
 }
 
-.delete{
-    background: red;
-}
-
 .info textarea{
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;

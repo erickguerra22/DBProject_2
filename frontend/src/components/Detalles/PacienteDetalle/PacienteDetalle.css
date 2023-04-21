@@ -48,7 +48,7 @@ input {
 }
 
 .delete{
-    background: red;
+    background: rgb(180, 42, 42);
 }
 
 .paciente .floatButton{

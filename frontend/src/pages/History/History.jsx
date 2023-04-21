@@ -21,7 +21,9 @@ const History = () => {
   const historyId = localStorage.getItem('history-id')
   const historyDate = new Date(localStorage.getItem('historyDate'))
   const today = new Date()
-  const [list, setList] = useState([])
+  const [treatment, setTreatment] = useState([])
+  const [diseases, setDiseases] = useState([])
+  const [adictions, setAdictions] = useState([])
   const [fetchState, setFetchState] = useState(true)
 
   const createNewItem = () => {
@@ -29,11 +31,25 @@ const History = () => {
   }
 
   const fetchTreatment = async () => {
-    setList([])
+    setTreatment([])
     const response = await fetch(`${server}/treatment/${historyId}/${busqueda}`)
     const json = await response.json()
     setFetchState(json.ok)
-    setList(json.result)
+    setTreatment(json.result)
+  }
+
+  const fetchDiseases = async () => {
+    setDiseases([])
+    const response = await fetch(`${server}/history/diseases/${historyId}/${busqueda}`)
+    const json = await response.json()
+    setDiseases(json.result)
+  }
+
+  const fetchAdictions = async () => {
+    setAdictions([])
+    const response = await fetch(`${server}/history/adictions/${historyId}/${busqueda}`)
+    const json = await response.json()
+    setAdictions(json.result)
   }
 
   const getSelectedItem = () => {
@@ -51,6 +67,8 @@ const History = () => {
 
   useEffect(() => {
     fetchTreatment()
+    fetchDiseases()
+    fetchAdictions()
   }, [busqueda])
 
   if (userData.rol_id !== 2) {
@@ -62,12 +80,12 @@ const History = () => {
     )
   }
 
-  if ((list === undefined || list.length === 0) && fetchState === true) return (<Loading />)
+  if ((treatment === undefined || treatment.length === 0) && fetchState === true) return (<Loading />)
 
   return (
     <div style={{ height: '100%' }}>
       <NavBar />
-      <div className="home">
+      <div className="historyDetail">
         <div className="topPage">
           <Profile randomColor={randomColor} />
           <div className="searchBar">
@@ -76,6 +94,7 @@ const History = () => {
             <button className="searchButton" onClick={() => handleSearch()}>S</button>
           </div>
         </div>
+        <h2>Tratamientos</h2>
         {
           fetchState === false
           && (
@@ -86,9 +105,22 @@ const History = () => {
         }
         {
           fetchState === true
-          && (<Tabla arr={list} action={getSelectedItem} />
+          && (<Tabla arr={treatment} action={getSelectedItem} />
           )
         }
+        <h2>Enfermedades y adicciones padecidas</h2>
+        <div style={{ display: 'flex' }}>
+          {
+            diseases.length > 0
+            && (<Tabla arr={diseases} detail={false} action={getSelectedItem} />
+            )
+          }
+          {
+            adictions.length > 0
+            && (<Tabla arr={adictions} detail={false} action={getSelectedItem} />
+            )
+          }
+        </div>
         {
           fetchState === true
           && (

@@ -14,7 +14,7 @@ const Tabla = ({ arr, detail, action }) => {
   }
 
   return (
-    <table className="list">
+    <table className="list" style={{ width: `${keys.length > 1 ? '100%' : '50%'}`, borderRadius: `${keys.length > 1 ? '' : '25px'}` }}>
       <tbody className="listBody">
         <tr key="header" className="header">
           {keys.map((key) => (<th key={key}>{key}</th>))}
