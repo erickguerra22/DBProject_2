@@ -41,6 +41,10 @@ const NavBar = () => {
       </div>
       <div className="navBarContent">
         <nav>
+          {
+            userData.rol_id === 3
+            && <button id="notification">H</button>
+          }
           <button onClick={() => {
             logout()
             navigate('')

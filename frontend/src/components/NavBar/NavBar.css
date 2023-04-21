@@ -73,7 +73,7 @@
 }
 
 .navBarContent button {
-    font-size: 20px;
+    font-size: 25px;
     width: fit-content;
     height: fit-content;
     margin-bottom: 5px;
@@ -118,4 +118,8 @@
     height: 100vh;
     color:red;
     border-radius: 0 0 60% 0;
+}
+
+#notification{
+    color: hotpink;
 }
