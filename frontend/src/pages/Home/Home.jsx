@@ -7,18 +7,27 @@ import Alert from '../../components/Alert/Alert'
 import Profile from '../../components/Profile/Profile'
 import Tabla from '../../components/Tabla/Tabla'
 import server from '../../services/server'
-
+import UsuarioDetalle from '../../components/Detalles/UsuarioDetalle/UsuarioDetalle'
+import NuevoUsuario from '../../components/Nuevos/NuevoUsuario/NuevoUsuario'
+import NuevoExpediente from '../../components/Nuevos/NuevoExpediente/NuevoExpediente'
+import PacienteDetalle from '../../components/Detalles/PacienteDetalle/PacienteDetalle'
 
 const Home = () => {
   const randomColor = localStorage.getItem('random-color')
+  const [selectedItem, setSelectedItem] = useState('')
+  const [newItem, setNewItem] = useState(false)
   const [busqueda, setBusqueda] = useState('')
   const userData = JSON.parse(localStorage.getItem('user-data'))
+
+  const createNewItem = () => {
+    setNewItem((old) => !old)
+  }
   // eslint-disable-next-line no-nested-ternary
   const param = userData.rol_id === 1 ? 'user' : userData.rol_id === 2 ? 'record' : `store/${userData.institucion_id}`
   document.getElementById('title').innerHTML = 'Página principal'
   const [list, setList] = useState([])
 
-  const fetchBodega = async () => {
+  const fetchList = async () => {
     setList([])
     const response = await fetch(`${server}/${param}/${busqueda}`)
     const json = await response.json()
@@ -30,8 +39,17 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchBodega()
+    fetchList()
   }, [busqueda])
+
+  const getSelectedItem = () => {
+    setSelectedItem(localStorage.getItem('selected_item'))
+  }
+
+  const clearSelectedItem = () => {
+    localStorage.removeItem('selected_item')
+    setSelectedItem('')
+  }
 
   if (userData.rol_id === 0) {
     return (
@@ -44,7 +62,6 @@ const Home = () => {
 
   if (list.length === 0) return (<Loading />)
 
-  console.log(list[1])
   return (
     <div style={{ height: '100%' }}>
       <NavBar />
@@ -57,8 +74,28 @@ const Home = () => {
             <button className="searchButton" onClick={() => handleSearch()}>S</button>
           </div>
         </div>
-        <Tabla arr={list} />
-        <button className="floatButton">+</button>
+        <Tabla arr={list} action={getSelectedItem} />
+        <div className="detailContainer" style={{ display: `${selectedItem !== '' ? 'flex' : 'none'}` }}>
+          {
+            param === 'user'
+            && <UsuarioDetalle username={selectedItem} onClose={clearSelectedItem} />
+          }
+          {
+            param === 'record'
+            && <PacienteDetalle patient={selectedItem} onClose={clearSelectedItem} />
+          }
+        </div>
+        <div className="detailContainer" style={{ display: `${newItem ? 'flex' : 'none'}` }}>
+          {
+            param === 'user'
+            && <NuevoUsuario onClose={createNewItem} />
+          }
+          {
+            param === 'record'
+            && <NuevoExpediente onClose={createNewItem} />
+          }
+        </div>
+        <button onClick={createNewItem} className="floatButton">+</button>
       </div>
     </div>
   )

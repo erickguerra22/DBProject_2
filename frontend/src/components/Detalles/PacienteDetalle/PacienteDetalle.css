@@ -1,29 +1,52 @@
-.Paciente {
-    border: 1px solid;
-    height: 100%;
+.paciente {
+    max-width: 80%;
+    width: fit-content;
+    max-height: 80%;
+    padding: 50px;
+    background-color: white;
     display: flex;
-    margin: auto;
-    padding: 10px;
     flex-direction: column;
-    box-sizing: border-box;
+    justify-content: center;
     border-radius: 10px;
+    height: fit-content;
+    align-items: center;
+    box-shadow: 0px 10px 35px -10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
 }
-.campo{
+
+.paciente .info label{
+    width: fit-content;
+}
+
+.campo {
     border: 1px solid;
     display: block;
 }
 
-input{
+input {
     max-width: 100%;
 }
-.Titulo{
-    margin: auto;
+
+.titulo {
+    margin: 0;
     font-size: larger;
     font: bolder;
 }
-.Mediciones{
-    display:flex;
+
+.Mediciones {
+    display: flex;
 }
-.med{
+
+.med {
     max-width: 100px;
+}
+
+.paciente label {
+    width: 45%;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.delete{
+    background: red;
 }

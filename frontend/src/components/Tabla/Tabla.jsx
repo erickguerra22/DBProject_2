@@ -1,17 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// eslint-disable-next-line import/no-cycle
-import { navigate } from '../../pages/index'
 import './Tabla.css'
 
-const Tabla = ({ arr, detail }) => {
+const Tabla = ({ arr, detail, action }) => {
   // eslint-disable-next-line no-unused-vars
   const [state, setState] = React.useState(arr)
   const keys = Object.keys(state[0])
   const userData = JSON.parse(localStorage.getItem('user-data'))
 
   const handleClick = (row) => {
-    navigate('user-detail')
     localStorage.setItem('selected_item', Object.values(state[row])[0])
   }
 
@@ -44,8 +41,8 @@ const Tabla = ({ arr, detail }) => {
                       }
                     }
                     return (
-                      <td key={keys[index]}>
-                        {(value === null && value !== 0) ? 'N/A' : value}
+                      <td>
+                        {(value === null && value !== 0) ? 'N/A' : value === false ? 'No' : value}
                       </td>
                     )
                   })
@@ -54,7 +51,7 @@ const Tabla = ({ arr, detail }) => {
                   detail
                   && (
                     <td>
-                      <button onClick={() => handleClick(index)} className="tableBTN">n</button>
+                      <button onClick={() => { handleClick(index); action() }} className="tableBTN">n</button>
                     </td>
                   )
                 }

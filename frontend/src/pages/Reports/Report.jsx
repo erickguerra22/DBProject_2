@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './Assignment.css'
+import './Report.css'
 // eslint-disable-next-line import/no-cycle
 import NavBar from '../../components/NavBar/NavBar'
 import Loading from '../../components/Loading/Loading'
@@ -7,13 +7,14 @@ import Alert from '../../components/Alert/Alert'
 import Profile from '../../components/Profile/Profile'
 import Tabla from '../../components/Tabla/Tabla'
 import server from '../../services/server'
+import CardButton from '../../components/CardButton/CardButton'
 
-const Assignment = () => {
+const Report = () => {
   const randomColor = localStorage.getItem('random-color')
   const [busqueda, setBusqueda] = useState('')
   const userData = JSON.parse(localStorage.getItem('user-data'))
   // eslint-disable-next-line no-nested-ternary
-  document.getElementById('title').innerHTML = 'Asignaciones'
+  document.getElementById('title').innerHTML = 'Reportes'
   const [list, setList] = useState([])
 
   const fetchAssignment = async () => {
@@ -50,14 +51,18 @@ const Assignment = () => {
           <Profile randomColor={randomColor} />
           <div className="searchBar">
             <p className="welcome">{`¡Hola de nuevo! ${userData.nombre}.`}</p>
-            <input placeholder="Buscar" id="searchInput" className="searchInput" defaultValue="" />
-            <button className="searchButton" onClick={() => handleSearch()}>S</button>
           </div>
         </div>
-        <Tabla arr={list} detail={false} />
+        <div className="cardContainer">
+          <CardButton reportId={0} text="Enfermedades más mortales" alone={false} color="#64A556" />
+          <CardButton reportId={1} text="Médicos que más pacientes han atendido" alone={false} color="#216641" />
+          <CardButton reportId={2} text="Pacientes con más asistencias" alone={false} color="#216641" />
+          <CardButton reportId={3} text="Suministros a punto de terminar" alone={false} color="#64A556" />
+          <CardButton reportId={4} text="Instituciones con mas pacientes" alone={true} color="#69B73D" />
+        </div>
       </div>
     </div>
   )
 }
 
-export default Assignment
+export default Report

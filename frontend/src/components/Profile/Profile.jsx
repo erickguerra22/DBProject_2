@@ -40,26 +40,30 @@ const Profile = ({ randomColor }) => {
     document.getElementById('guardar').style.display = 'none'
   }
 
-  const update = async () => {
-    document.getElementById('nombre').disabled = true
-    document.getElementById('phone').disabled = true
+  const update = async (event) => {
+    event.preventDefault()
+    const {
+      nombre, phone, address, especiality, email, editar, cancelar, guardar,
+    } = event.target
+    nombre.disabled = true
+    phone.disabled = true
     if (userData.rol_id === 2) {
-      document.getElementById('address').disabled = true
-      document.getElementById('especiality').disabled = true
+      address.disabled = true
+      especiality.disabled = true
     }
-    document.getElementById('email').disabled = true
-    document.getElementById('editar').style.display = 'inline'
-    document.getElementById('cancelar').style.display = 'none'
-    document.getElementById('guardar').style.display = 'none'
+    email.disabled = true
+    editar.style.display = 'inline'
+    cancelar.style.display = 'none'
+    guardar.style.display = 'none'
 
     const body = {
-      email: document.getElementById('email').value,
+      email: email.value,
       pass: userData.pass,
-      nombre: document.getElementById('nombre').value,
-      telefono: document.getElementById('phone').value,
+      nombre: nombre.value,
+      telefono: phone.value,
       rol: userData.rol_id,
-      direccion: document.getElementById('address').value,
-      especialidad: document.getElementById('especiality').value,
+      direccion: address ? address.value : undefined,
+      especialidad: especiality ? especiality.value : undefined,
     }
 
     const response = await fetch(`${server}/user/update/${userData.username}`, {
@@ -80,8 +84,8 @@ const Profile = ({ randomColor }) => {
     userData.email = responseJSON.userData.email
     userData.telefono = responseJSON.userData.telefono
     userData.direccion = responseJSON.userData.direccion
-    userData.especialidad = document.getElementById(`${document.getElementById('especiality').value}`).innerHTML
-    userData.especialidad_id = responseJSON.userData.especialidad_id
+    userData.especialidad = especiality ? document.getElementById(especiality.value).innerHTML : undefined
+    userData.especialidad_id = especiality ? responseJSON.userData.especialidad_id : undefined
     localStorage.setItem('user-data', JSON.stringify(userData))
   }
 
@@ -112,7 +116,7 @@ const Profile = ({ randomColor }) => {
           <p>{userData.nombre[0].toUpperCase()}</p>
         </div>
         <p style={{ marginTop: '10px' }}>{userData.rol_id === 2 ? `No. colegiado: ${userData.no_colegiado}` : ''}</p>
-        <div className="info">
+        <form onSubmit={update} className="info">
           <label htmlFor="nombre">
             <input name="nombre" id="nombre" required disabled defaultValue={`${userData.nombre}`} />
             Nombre
@@ -161,13 +165,13 @@ const Profile = ({ randomColor }) => {
             <input name="since" id="since" disabled value={`${fechaEntrada.getDate()}/${fechaEntrada.getMonth() + 1}/${fechaEntrada.getFullYear()}`} />
             Fecha de inicio
           </label>
-        </div>
-        <p id="result" />
-        <div className="actions">
-          <button type="button" onClick={edit} id="editar">Editar</button>
-          <button type="button" onClick={cancel} id="cancelar" style={{ display: 'none' }}>Cancelar</button>
-          <button type="submit" style={{ display: 'none' }} id="guardar" onClick={update}>Guardar</button>
-        </div>
+          <p id="result" />
+          <div className="actions">
+            <button type="button" onClick={edit} id="editar">Editar</button>
+            <button type="button" onClick={cancel} id="cancelar" style={{ display: 'none' }}>Cancelar</button>
+            <button type="submit" style={{ display: 'none' }} id="guardar">Guardar</button>
+          </div>
+        </form>
       </div>
     </div>
   )

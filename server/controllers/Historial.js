@@ -2,18 +2,13 @@ import db from '../services/DBConnection.js'
 
 const getHistorial = ({ params }, res) => {
   const { dpi } = params
-  const query = `select dpi, fechahora_atencion, altura, peso, imc, precedentes, nombre as institucion, resultado, evolucion from historial
+  const query = `select dpi "DPI", fechahora_atencion "Fecha y hora de atención", altura "Altura", peso "Peso", round(imc::numeric, 2) "IMC", precedentes "Precedentes", nombre "Institucion", resultado "Resultado", evolucion "Evolucion" from historial
 	NATURAL JOIN institucion
 	where dpi = $1;`
   db.query(query, [dpi], (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
-      return
-    }
-
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
       return
     }
 
@@ -33,11 +28,6 @@ const searchHistorial = ({ params }, res) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
-      return
-    }
-
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
       return
     }
 

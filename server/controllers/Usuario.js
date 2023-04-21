@@ -37,14 +37,14 @@ const signUp = ({ body }, res) => {
         res.status(400).send({ ok: false, error: `El ${field} ingresado ya se encuentra registrado.` })
         return
       }
-      console.log(err)
+      console.log('insert user', err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
       return
     }
 
     db.query('INSERT INTO asignacion VALUES($1, $2, DEFAULT, DEFAULT);', [username, institucion_id], (err, resultAsig) => {
       if (err) {
-        console.log(err)
+        console.log('asignar', err)
         res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
         return
       }
@@ -81,7 +81,7 @@ const logIn = ({ body }, res) => {
       return
     }
 
-    db.query('SET myvar.app_user = $1', [user.trim()], (err, result2) => {
+    db.query(`SET my.app_user = '${user.trim()}'`, (err, result2) => {
       if (result) {
         const userFound = result.rows[0]
         const token = generateSessionToken(userFound.username)
@@ -94,6 +94,28 @@ const logIn = ({ body }, res) => {
         return
       }
     })
+  })
+}
+
+const getUsuario = ({ params }, res) => {
+  const { username } = params
+
+  const query = `select pass, username "Usuario", u.nombre "Nombre", i.nombre "Institucion", fecha_entrada "Fecha de entrada", r.nombre "Rol",
+	i.institucion_id, r.rol_id, u.telefono "Telefono", u.email "Email"
+  from asignacion asig
+	RIGHT JOIN usuario u ON u.username = asig.usuario
+	left JOIN institucion i ON asig.institucion = i.institucion_id
+	left JOIN rol r ON u.rol_id = r.rol_id
+  where username = $1 ORDER BY r.rol_id`
+
+  db.query(query, [username], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.send({ ok: true, result: result.rows })
   })
 }
 
@@ -125,7 +147,7 @@ const updateUsuario = ({ body, params }, res) => {
           res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
           return
         }
-        if (newResult.rows[0] !== undefined){
+        if (newResult.rows[0] !== undefined) {
           updatedUser.direccion = newResult.rows[0].direccion
           updatedUser.especialidad_id = newResult.rows[0].especialidad_id
         }
@@ -225,5 +247,6 @@ export {
   updateUsuario,
   createUser,
   searchUser,
-  assignInstitucion
+  assignInstitucion,
+  getUsuario
 }

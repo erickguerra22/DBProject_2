@@ -7,6 +7,7 @@ import Home from './Home'
 import { useAuth } from '../services/Auth'
 import Binnacle from './Binnacle/Binnacle'
 import Assignment from './Assignment/Assignment'
+import Report from './Reports/Report'
 
 const navigate = (page) => {
   window.location = `/${page}`
@@ -26,6 +27,9 @@ const Page = () => {
       </Route>
       <Route path="/binnacle">
         {authToken ? <Binnacle /> : <Redirect to="/log-in" />}
+      </Route>
+      <Route path="/reports">
+        {authToken ? <Report /> : <Redirect to="/log-in" />}
       </Route>
       <Route path="/assignments">
         {authToken ? <Assignment /> : <Redirect to="/log-in" />}

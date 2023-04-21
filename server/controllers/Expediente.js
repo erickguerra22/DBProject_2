@@ -41,12 +41,13 @@ const updateExpediente = ({ body, params }, res) => {
   const query = `UPDATE expediente SET nombre = $1, telefono = $2, direccion = $3
   WHERE dpi = $4 RETURNING dpi,nombre,telefono, direccion, estado;`
 
-  db.query(query, [nombre.trim(), telefono.trim(), direccion.trim(), dpi.trim()], (err, result) => {
+  db.query(query, [nombre.trim(), telefono, direccion.trim(), dpi], (err, result) => {
     if (err) {
       if (err.code === '23505') {
         res.status(400).send({ ok: false, error: 'El telefono ingresado ya se encuentra registrado.' })
         return
       }
+      console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
       return
     }
@@ -61,9 +62,26 @@ const updateExpediente = ({ body, params }, res) => {
   })
 }
 
+const getExpediente = ({ params }, res) => {
+  const { dpi } = params
+  const query = `SELECT dpi "DPI", nombre "Nombre", telefono "Telefono", direccion "Direccion", estado "Estado" FROM expediente
+  where dpi = $1`
+
+  db.query(query, [dpi], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
 const searchExpediente = ({ params }, res) => {
   const { search } = params
-  const query = `select * from expediente
+  const query = `SELECT dpi "DPI", nombre "Nombre", telefono "Telefono", direccion "Direccion", estado "Estado" FROM expediente
   where nombre ilike '%${search}%' or dpi ilike '%${search}%' or estado ilike '%${search}%' or direccion ilike '%${search}%'`
 
   db.query(query, (err, result) => {
@@ -95,7 +113,7 @@ const removeExpediente = ({ params }, res) => {
       return
     }
     res.json({ ok: true, deleted })
-    return    
+    return
   })
 }
 
@@ -104,5 +122,6 @@ export {
   newExpediente,
   updateExpediente,
   searchExpediente,
-  removeExpediente
+  removeExpediente,
+  getExpediente
 }
