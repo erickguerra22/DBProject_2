@@ -12,6 +12,7 @@ import NuevoUsuario from '../../components/Nuevos/NuevoUsuario/NuevoUsuario'
 import NuevoExpediente from '../../components/Nuevos/NuevoExpediente/NuevoExpediente'
 import NuevoSuministro from '../../components/Nuevos/NuevoSuministro/NuevoSuministro'
 import PacienteDetalle from '../../components/Detalles/PacienteDetalle/PacienteDetalle'
+import NuevoMedico from '../../components/Nuevos/NuevoMedico/NuevoMedico'
 
 const Home = () => {
   const randomColor = localStorage.getItem('random-color')
@@ -58,6 +59,16 @@ const Home = () => {
       <div>
         <NavBar />
         <Alert title="Permiso denegado" text="No cuentas con un rol asignado, contacta con un administrador para que se te sean concedidos permisos en la página." />
+      </div>
+    )
+  }
+
+  if (userData.rol_id === 2 && userData.no_colegiado === null) {
+    return (
+      <div>
+        <NavBar />
+        <NuevoMedico />
+        <Alert title="¡AVISO!" text="Debes de actualizar tu información como médico antes de realizar cualquier acción." />
       </div>
     )
   }
