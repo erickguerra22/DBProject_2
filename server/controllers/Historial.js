@@ -10,11 +10,6 @@ const getHistorial = ({ params }, res) => {
       return
     }
 
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-      return
-    }
-
     res.send({ ok: true, historiales: result.rows })
   })
 }
@@ -152,6 +147,23 @@ const searchHistorialByEspMedico = ({ params }, res) => {
   })
 }
 
+const newHistorial = ({ params, body }, res) => {
+  const { dpi } = params
+  const { altura, peso, precedentes, resultado, evolucion, institucion } = body
+  const query = `INSERT INTO historial VALUES(DEFAULT, $1, now(), $2, $3, DEFAULT, $4, $5,$6, $7);`
+
+  db.query(query, [dpi, altura, peso, precedentes, resultado, evolucion, institucion], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true })
+    return
+  })
+}
+
 export {
   getHistorial,
   searchHistorialByDate,
@@ -159,5 +171,6 @@ export {
   searchHistorialByMunicipio,
   searchHistorialByDepartamento,
   searchHistorialByMedico,
-  searchHistorialByEspMedico
+  searchHistorialByEspMedico,
+  newHistorial
 }

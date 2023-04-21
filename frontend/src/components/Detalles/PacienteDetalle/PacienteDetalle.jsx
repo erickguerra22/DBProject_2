@@ -3,19 +3,27 @@ import PropTypes from 'prop-types'
 import './PacienteDetalle.css'
 import server from '../../../services/server'
 import Tabla from '../../Tabla/Tabla'
+// eslint-disable-next-line import/no-cycle
+import { navigate } from '../../../pages'
+import NuevoHistorial from '../../Nuevos/NuevoHistorial/NuevoHistorial'
 
 const PacienteDetalle = ({ patient, onClose }) => {
+  const [newItem, setNewItem] = useState(false)
   const [paciente, setPaciente] = useState([])
   const [historiales, setHistoriales] = useState([])
 
+  const createNewItem = () => {
+    setNewItem((old) => !old)
+  }
+
   const fetchPatient = async () => {
-    const response = await fetch(`${server}/record/expediente/${patient}`)
+    const response = await fetch(`${server}/record/dpi/${patient}`)
     const json = await response.json()
     setPaciente(json.result[0])
   }
 
   const fetchHistories = async () => {
-    const response = await fetch(`${server}/history/${patient}`)
+    const response = await fetch(`${server}/history/dpi/${patient}`)
     const json = await response.json()
     setHistoriales(json.historiales)
   }
@@ -48,7 +56,7 @@ const PacienteDetalle = ({ patient, onClose }) => {
 
   const update = async (event) => {
     event.preventDefault()
-    const { dpi, pNombre, pPhone, pAddress } = event.target
+    const { pNombre, pPhone, pAddress } = event.target
 
     const body = {
       nombre: pNombre.value,
@@ -85,16 +93,21 @@ const PacienteDetalle = ({ patient, onClose }) => {
     document.getElementById('save').style.display = 'inline'
   }
 
+  const goToHistory = () => {
+    localStorage.setItem('history-id', localStorage.getItem('selected_item'))
+    navigate(`history/${patient}`)
+  }
+
   useEffect(() => {
-    fetchPatient()
     fetchHistories()
+    fetchPatient()
   }, [patient])
 
   if (paciente === undefined || paciente.length === 0) return (<div />)
 
   return (
     <div className="paciente">
-      <h1 className="titulo">Detalles de Usuario</h1>
+      <h1 className="titulo">Expediente e historiales registrados</h1>
       <form className="info" onSubmit={update}>
         <label htmlFor="dpi">
           <input name="dpi" id="dpi" required disabled defaultValue={`${patient}`} />
@@ -127,8 +140,12 @@ const PacienteDetalle = ({ patient, onClose }) => {
       </form>
       {
         historiales.length !== 0
-        && <Tabla arr={historiales} detail={true} />
+        && <Tabla arr={historiales} action={goToHistory} />
       }
+      <div className="detailContainer" style={{ display: `${newItem ? 'flex' : 'none'}` }}>
+        <NuevoHistorial onClose={createNewItem} />
+      </div>
+      <button onClick={createNewItem} className="floatButton">+</button>
     </div>
   )
 }

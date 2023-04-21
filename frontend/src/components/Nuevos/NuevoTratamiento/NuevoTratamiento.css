@@ -1,0 +1,59 @@
+.historial {
+    max-width: 100%;
+    width: 460px;
+    padding: 50px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    height: fit-content;
+    align-items: center;
+    box-shadow: 0px 10px 35px -10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.info {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.info input, .info select {
+    width: fit-content;
+    display: block;
+}
+
+.info select{
+    margin-bottom: 10px;
+    width: 100%;
+    color:black;
+}
+
+.info input::placeholder {
+    font-size: 15px;
+}
+
+.titulo{
+    margin: 0;
+    font-size: larger;
+    font: bolder;
+}
+
+.expediente label {
+    width: 45%;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.actions {
+    display: flex;
+    width: 70%;
+    justify-content: space-around;
+}
+
+.historial .info .checkbox{
+    display: inline;
+    margin-right: 10px;
+    cursor:pointer;
+    margin-left: 10px;
+}

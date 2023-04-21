@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import './NuevoExpediente.css'
 import server from '../../../services/server'
 
 const NuevoExpediente = ({ onClose }) => {
-
   const save = async (event) => {
-    console.log(event)
     event.preventDefault()
     const {
-      newDpi, newNombre, newPhone, newAddress
+      newDpi, newNombre, newPhone, newAddress,
     } = event.target
 
     const body = {
@@ -27,8 +25,6 @@ const NuevoExpediente = ({ onClose }) => {
       },
     })
     const responseJSON = await response.json()
-
-    console.log(responseJSON)
 
     if (responseJSON.ok === false) {
       document.getElementById('newResult').innerHTML = responseJSON.error

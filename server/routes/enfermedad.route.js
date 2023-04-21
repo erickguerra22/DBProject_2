@@ -1,8 +1,9 @@
 import express from 'express'
-import { getEnfermedades } from '../controllers/Enfermedad.js';
+import { getEnfermedades, getEnfermedadesOnHistory } from '../controllers/Enfermedad.js';
 
 const router = express.Router();
 
-router.get("/:id", getEnfermedades)
+router.get("/:id", getEnfermedadesOnHistory)
+router.get("/", getEnfermedades)
 
 export default router

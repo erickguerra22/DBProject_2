@@ -1,0 +1,25 @@
+.menu {
+  border-radius: 10px;
+  position: absolute;
+  margin: 0;
+  visibility: visible;
+  padding: 15px 10px;
+  box-shadow: 0px 10px 16px -8px rgba(0, 0, 0, 0.2);
+  background: rgb(216, 125, 125);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  font-size: 15px;
+  right:80px;
+  align-items: flex-start;
+  font-family: "ProximaNova_Light";
+  text-align: left;
+  color: black;
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+.menu a {
+  text-decoration: none;
+  color: rgb(199, 199, 199);
+}

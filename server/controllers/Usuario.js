@@ -7,7 +7,9 @@ const getUsuarios = (req, res) => {
 	from asignacion asig
 	RIGHT JOIN usuario u ON u.username = asig.usuario
 	left JOIN institucion i ON asig.institucion = i.institucion_id
-	left JOIN rol r ON u.rol_id = r.rol_id ORDER BY r.rol_id;`
+	left JOIN rol r ON u.rol_id = r.rol_id
+  where fecha_salida is null
+  ORDER BY r.rol_id;`
 
   db.query(query, (err, result) => {
     if (err) {

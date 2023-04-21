@@ -93,9 +93,10 @@ const searchExpedienteByName = ({ params }, res) => {
   })
 }
 
-const searchExpedienteByState = ({ params }, res) => {
-  const { text } = params
-  const query = `select * from expediente_paciente_estado('${text}');`
+const searchExpediente = ({ params }, res) => {
+  const { search } = params
+  const query = `SELECT dpi "DPI", nombre "Nombre", telefono "Telefono", direccion "Direccion", estado "Estado" FROM expediente
+	where dpi ilike '%${search}%' or nombre ilike '%${search}%' or estado ilike '%${search}%' or telefono ilike '%${search}%' or direccion ilike '%${search}%'`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -104,8 +105,7 @@ const searchExpedienteByState = ({ params }, res) => {
       return
     }
 
-    res.json({ ok: true, result: result.rows })
-    return
+    res.send({ result: result.rows })
   })
 }
 
@@ -126,7 +126,7 @@ const removeExpediente = ({ params }, res) => {
       return
     }
     res.json({ ok: true, deleted })
-    return    
+    return
   })
 }
 
@@ -136,6 +136,6 @@ export {
   updateExpediente,
   searchExpedienteByDPI,
   searchExpedienteByName,
-  searchExpedienteByState,
+  searchExpediente,
   removeExpediente
 }

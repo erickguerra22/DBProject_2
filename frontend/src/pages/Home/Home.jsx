@@ -10,6 +10,7 @@ import server from '../../services/server'
 import UsuarioDetalle from '../../components/Detalles/UsuarioDetalle/UsuarioDetalle'
 import NuevoUsuario from '../../components/Nuevos/NuevoUsuario/NuevoUsuario'
 import NuevoExpediente from '../../components/Nuevos/NuevoExpediente/NuevoExpediente'
+import NuevoSuministro from '../../components/Nuevos/NuevoSuministro/NuevoSuministro'
 import PacienteDetalle from '../../components/Detalles/PacienteDetalle/PacienteDetalle'
 
 const Home = () => {
@@ -23,7 +24,8 @@ const Home = () => {
     setNewItem((old) => !old)
   }
   // eslint-disable-next-line no-nested-ternary
-  const param = userData.rol_id === 1 ? 'user' : userData.rol_id === 2 ? 'record' : `store/${userData.institucion_id}`
+  const param = userData.rol_id === 1 ? 'user' : userData.rol_id === 2 ? 'record' : `cellar/${userData.institucion_id}`
+  const detail = userData.rol_id !== 3
   document.getElementById('title').innerHTML = 'Página principal'
   const [list, setList] = useState([])
 
@@ -74,7 +76,7 @@ const Home = () => {
             <button className="searchButton" onClick={() => handleSearch()}>S</button>
           </div>
         </div>
-        <Tabla arr={list} action={getSelectedItem} />
+        <Tabla arr={list} action={getSelectedItem} detail={detail} />
         <div className="detailContainer" style={{ display: `${selectedItem !== '' ? 'flex' : 'none'}` }}>
           {
             param === 'user'
@@ -93,6 +95,10 @@ const Home = () => {
           {
             param === 'record'
             && <NuevoExpediente onClose={createNewItem} />
+          }
+          {
+            param === `cellar/${userData.institucion_id}`
+            && <NuevoSuministro onClose={createNewItem} />
           }
         </div>
         <button onClick={createNewItem} className="floatButton">+</button>

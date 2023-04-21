@@ -1,8 +1,9 @@
 import express from 'express'
-import { getMedicamentos } from '../controllers/Medicamento.js';
+import { getAlertas, getMedicamentos } from '../controllers/Medicamento.js';
 
 const router = express.Router();
 
 router.get("/:tratamiento", getMedicamentos)
+router.get("/alertas/:institucion", getAlertas)
 
 export default router

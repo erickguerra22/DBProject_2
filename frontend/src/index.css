@@ -15,7 +15,7 @@ body {
   height: 100%;
 }
 
-input {
+input, textarea {
   background: 0;
   outline: none;
   border: none;
@@ -57,7 +57,7 @@ option {
   color: black;
 }
 
-.info input, .info select {
+.info input, .info select, .info textarea {
   width: fit-content;
   display: block;
 }

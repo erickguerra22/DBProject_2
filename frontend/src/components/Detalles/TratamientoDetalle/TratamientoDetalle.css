@@ -1,4 +1,4 @@
-.paciente {
+.tratamiento {
     max-width: 80%;
     width: fit-content;
     max-height: 80%;
@@ -51,6 +51,7 @@ input {
     background: red;
 }
 
-.paciente .floatButton{
-    position: sticky;
+.info textarea{
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
 }

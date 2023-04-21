@@ -1,5 +1,5 @@
 import express from 'express'
-import { getHistorial, searchHistorialByDate, searchHistorialByInstitution, searchHistorialByMunicipio, searchHistorialByDepartamento, searchHistorialByMedico, searchHistorialByEspMedico } from '../controllers/Historial.js'
+import { getHistorial, searchHistorialByDate, searchHistorialByInstitution, searchHistorialByMunicipio, searchHistorialByDepartamento, searchHistorialByMedico, searchHistorialByEspMedico, newHistorial } from '../controllers/Historial.js'
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.get("/municipio/:dpi/:municipio", searchHistorialByMunicipio)
 router.get("/departamento/:dpi/:departamento", searchHistorialByDepartamento)
 router.get("/medico/:dpi/:medico", searchHistorialByMedico)
 router.get("/espmedico/:dpi/:espmedico", searchHistorialByEspMedico)
+router.post("/new/:dpi", newHistorial)
 
 
 export default router
