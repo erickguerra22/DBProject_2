@@ -41,13 +41,12 @@ const updateExpediente = ({ body, params }, res) => {
   const query = `UPDATE expediente SET nombre = $1, telefono = $2, direccion = $3
   WHERE dpi = $4 RETURNING dpi,nombre,telefono, direccion, estado;`
 
-  db.query(query, [nombre.trim(), telefono, direccion.trim(), dpi], (err, result) => {
+  db.query(query, [nombre.trim(), telefono.trim(), direccion.trim(), dpi.trim()], (err, result) => {
     if (err) {
       if (err.code === '23505') {
         res.status(400).send({ ok: false, error: 'El telefono ingresado ya se encuentra registrado.' })
         return
       }
-      console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
       return
     }
@@ -62,12 +61,11 @@ const updateExpediente = ({ body, params }, res) => {
   })
 }
 
-const getExpediente = ({ params }, res) => {
+const searchExpedienteByDPI = ({ params }, res) => {
   const { dpi } = params
-  const query = `SELECT dpi "DPI", nombre "Nombre", telefono "Telefono", direccion "Direccion", estado "Estado" FROM expediente
-  where dpi = $1`
+  const query = `select * from expediente_paciente_dpi('${dpi}');`
 
-  db.query(query, [dpi], (err, result) => {
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -79,10 +77,25 @@ const getExpediente = ({ params }, res) => {
   })
 }
 
-const searchExpediente = ({ params }, res) => {
-  const { search } = params
-  const query = `SELECT dpi "DPI", nombre "Nombre", telefono "Telefono", direccion "Direccion", estado "Estado" FROM expediente
-  where nombre ilike '%${search}%' or dpi ilike '%${search}%' or estado ilike '%${search}%' or direccion ilike '%${search}%'`
+const searchExpedienteByName = ({ params }, res) => {
+  const { text } = params
+  const query = `select * from expediente_paciente_nombre('${text}');`
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const searchExpedienteByState = ({ params }, res) => {
+  const { text } = params
+  const query = `select * from expediente_paciente_estado('${text}');`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -113,7 +126,7 @@ const removeExpediente = ({ params }, res) => {
       return
     }
     res.json({ ok: true, deleted })
-    return
+    return    
   })
 }
 
@@ -121,7 +134,8 @@ export {
   getExpedientes,
   newExpediente,
   updateExpediente,
-  searchExpediente,
-  removeExpediente,
-  getExpediente
+  searchExpedienteByDPI,
+  searchExpedienteByName,
+  searchExpedienteByState,
+  removeExpediente
 }

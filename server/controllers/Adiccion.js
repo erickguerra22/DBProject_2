@@ -1,11 +1,9 @@
 import db from '../services/DBConnection.js'
 
 const getAdicciones = ({ params }, res) => {
-  const { historial } = params
-  const query = `select sustancia
-  from adiccion_padecida
-  NATURAL JOIN adiccion where historial_id = $1`
-  db.query(query, [historial], (err, result) => {
+  const { id } = params
+  const query = `select * from adicciones_historialid(${id});`
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })

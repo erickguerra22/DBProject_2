@@ -1,11 +1,9 @@
 import db from '../services/DBConnection.js'
 
 const getEnfermedades = ({ params }, res) => {
-  const { historial } = params
-  const query = `select enfermedad.nombre enfermedad
-  from enfermedad_padecida
-  NATURAL JOIN enfermedad where historial_id = $1`
-  db.query(query, [historial], (err, result) => {
+  const { id } = params
+  const query = `select * from enfermedades_historialid(${id});`
+  db.query(query, (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
