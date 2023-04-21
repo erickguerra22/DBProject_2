@@ -116,5 +116,6 @@
     left:0;
     width: 100vw;
     height: 100vh;
+    color:red;
     border-radius: 0 0 60% 0;
 }

@@ -13,6 +13,26 @@
     z-index: 10;
 }
 
+.info {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.info input, .info select {
+    width: fit-content;
+    display: block;
+}
+
+.info select{
+    margin-bottom: 10px;
+    width: 100%;
+    color:black;
+}
+
+.info input::placeholder {
+    font-size: 15px;
+}
+
 .titulo{
     margin: 0;
     font-size: larger;
@@ -23,4 +43,10 @@
     width: 45%;
     display: inline-block;
     margin: 0 10px;
+}
+
+.actions {
+    display: flex;
+    width: 70%;
+    justify-content: space-around;
 }

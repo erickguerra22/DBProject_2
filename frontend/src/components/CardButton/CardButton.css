@@ -1,0 +1,41 @@
+.card{
+  grid-column: span 1;
+  width: 100%;
+  padding: 20px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  font-family: Agency FB;
+  font-size: 30px;
+  font-style: italic;
+  border-radius: 20px;
+  cursor: pointer;
+  position: relative;
+  top:0;
+  left:0;
+  transition: all .3s ease;
+}
+
+.card:hover{
+  color:white;
+  box-shadow: 0 2px 9px #666;
+  position: relative;
+  top:-5px;
+}
+
+.card img{
+  width: 90px
+}
+
+.card h1{
+  font-family: ddg-serp-icons;
+  margin:0;
+  padding: 0;
+}
+
+.card p{
+  margin:0; 
+}
