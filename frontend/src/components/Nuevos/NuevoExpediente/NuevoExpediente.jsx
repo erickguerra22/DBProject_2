@@ -38,20 +38,20 @@ const NuevoExpediente = ({ onClose }) => {
     <div className="expediente">
       <h1 className="titulo">Abrir Nuevo Expediente</h1>
       <form className="info" onSubmit={save}>
-        <label htmlFor="dpi">
-          <input name="dpi" id="newDpi" required />
+        <label htmlFor="newDpi">
+          <input name="newDpi" id="newDpi" required />
           Número de DPI o pasaporte
         </label>
-        <label htmlFor="name">
-          <input name="name" id="newNombre" required />
+        <label htmlFor="newNombre">
+          <input name="newNombre" id="newNombre" required />
           Nombre del paciente
         </label>
-        <label htmlFor="phone">
-          <input name="phone" id="newPhone" required />
+        <label htmlFor="newPhone">
+          <input name="newPhone" id="newPhone" required />
           Número de Teléfono
         </label>
-        <label htmlFor="address">
-          <input name="address" id="newAddress" required />
+        <label htmlFor="newAddress">
+          <input name="newAddress" id="newAddress" required />
           Dirección
         </label>
         <p id="newResult" style={{ textAlign: 'center', fontSize: '13px' }} />

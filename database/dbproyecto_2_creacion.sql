@@ -135,7 +135,8 @@ CREATE TABLE bodega(
 	suministro_id VARCHAR(10) REFERENCES suministro(suministro_id),
 	cantidad INT,
 	fecha_vencimiento DATE,
-	PRIMARY KEY (institucion_id, suministro_id)
+	fecha_compra TIMESTAMP DEFAULT NOW(),
+	PRIMARY KEY (institucion_id, suministro_id, fecha_compra)
 );
 
 CREATE TABLE expediente(
@@ -148,7 +149,7 @@ CREATE TABLE expediente(
 
 CREATE TABLE historial(
 	historial_id SERIAL PRIMARY KEY,
-	dpi VARCHAR(20) REFERENCES expediente(dpi),
+	dpi VARCHAR(20) REFERENCES expediente(dpi) ON DELETE CASCADE,
 	fechahora_atencion TIMESTAMP,
 	altura FLOAT,
 	peso FLOAT,
@@ -161,7 +162,7 @@ CREATE TABLE historial(
 
 CREATE TABLE tratamiento(
 	tratamiento_id SERIAL PRIMARY KEY,
-	historial_id INT REFERENCES historial(historial_id),
+	historial_id INT REFERENCES historial(historial_id) ON DELETE CASCADE,
 	descripcion TEXT,
 	enfermedad_tratada INT REFERENCES enfermedad(enfermedad_id),
 	medico_tratante VARCHAR(10) REFERENCES medico(no_colegiado)
@@ -181,13 +182,13 @@ CREATE TABLE medicamento_suministrado(
 );
 
 CREATE TABLE enfermedad_padecida(
-	historial_id INT REFERENCES historial(historial_id),
+	historial_id INT REFERENCES historial(historial_id) ON DELETE CASCADE,
 	enfermedad_id INT REFERENCES enfermedad(enfermedad_id),
 	PRIMARY KEY (historial_id, enfermedad_id)
 );
 
 CREATE TABLE adiccion_padecida(
-	historial_id INT REFERENCES historial(historial_id),
+	historial_id INT REFERENCES historial(historial_id) ON DELETE CASCADE,
 	adiccion_id INT REFERENCES adiccion(adiccion_id),
 	PRIMARY KEY (historial_id, adiccion_id)
 );

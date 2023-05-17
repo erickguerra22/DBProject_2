@@ -111,12 +111,12 @@ const History = () => {
         <h2>Enfermedades y adicciones padecidas</h2>
         <div style={{ display: 'flex' }}>
           {
-            diseases.length > 0
+            diseases !== undefined && diseases.length > 0
             && (<Tabla arr={diseases} detail={false} action={getSelectedItem} />
             )
           }
           {
-            adictions.length > 0
+            adictions !== undefined && adictions.length > 0
             && (<Tabla arr={adictions} detail={false} action={getSelectedItem} />
             )
           }

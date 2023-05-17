@@ -178,7 +178,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE salida();
 
 --------------------------------- FUNCIONES -------------------------------
-drop function expediente_paciente_dpi(dpipa varchar(20));
+drop function if exists expediente_paciente_dpi(dpipa varchar(20));
 CREATE OR REPLACE FUNCTION expediente_paciente_dpi(dpipa varchar(20))
 RETURNS TABLE(nombre VARCHAR(50), telefono VARCHAR(10), direccion VARCHAR(50), estado VARCHAR(10)) as
 $BODY$
@@ -193,7 +193,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function expediente_paciente_nombre(nombrein varchar(20));
+drop function if exists expediente_paciente_nombre(nombrein varchar(20));
 CREATE OR REPLACE FUNCTION expediente_paciente_nombre(nombrein varchar(20))
 RETURNS TABLE(dpi VARCHAR(20), nombre VARCHAR(50), telefono VARCHAR(10), direccion VARCHAR(50), estado VARCHAR(10)) as
 $BODY$
@@ -206,7 +206,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function expediente_paciente_estado(estadoin varchar(20));
+drop function if exists expediente_paciente_estado(estadoin varchar(20));
 CREATE OR REPLACE FUNCTION expediente_paciente_estado(estadoin varchar(20))
 RETURNS TABLE(dpi VARCHAR(20), nombre VARCHAR(50), telefono VARCHAR(10), direccion VARCHAR(50)) as
 $BODY$
@@ -221,21 +221,21 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_paciente_dpi(dpiin varchar(20));
+drop function if exists historial_paciente_dpi(dpiin varchar(20));
 CREATE OR REPLACE FUNCTION historial_paciente_dpi(dpiin varchar(20))
-RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
+RETURNS TABLE(historial_id INT, fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30)) as
 $BODY$
 begin
    	return query
-   	select h.fechahora_atencion, h.altura, h.peso, h.imc, h.precedentes, h.resultado, h.evolucion, i.nombre institucion
+   	select h.historial_id, h.fechahora_atencion, h.altura, h.peso, h.imc, h.precedentes, h.resultado, h.evolucion, i.nombre institucion
 	from historial h natural join institucion i
 	where h.dpi = dpiin;
 end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_fecha(dpiin varchar(20), fecha1in date, fecha2in date);
+drop function if exists historial_fecha(dpiin varchar(20), fecha1in date, fecha2in date);
 CREATE OR REPLACE FUNCTION historial_fecha(dpiin varchar(20), fecha1in date, fecha2in date)
 RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30)) as
@@ -250,7 +250,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_nombre_institucion(dpiin varchar(20), nominstitucionin varchar(30));
+drop function if exists historial_nombre_institucion(dpiin varchar(20), nominstitucionin varchar(30));
 CREATE OR REPLACE FUNCTION historial_nombre_institucion(dpiin varchar(20), nominstitucionin varchar(30))
 RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30)) as
@@ -265,7 +265,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_municipio_institucion(dpiin varchar(20), municipioin varchar(100));
+drop function if exists historial_municipio_institucion(dpiin varchar(20), municipioin varchar(100));
 CREATE OR REPLACE FUNCTION historial_municipio_institucion(dpiin varchar(20), municipioin varchar(100))
 RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30), municipio VARCHAR(100)) as
@@ -281,7 +281,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_departamento_institucion(dpiin varchar(20), departamentoin varchar(100));
+drop function if exists historial_departamento_institucion(dpiin varchar(20), departamentoin varchar(100));
 CREATE OR REPLACE FUNCTION historial_departamento_institucion(dpiin varchar(20), departamentoin varchar(100))
 RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30), municipio VARCHAR(100), departamento VARCHAR(50)) as
@@ -298,7 +298,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_nombre_medico(dpiin varchar(20), nommedicoin varchar(50));
+drop function if exists historial_nombre_medico(dpiin varchar(20), nommedicoin varchar(50));
 CREATE OR REPLACE FUNCTION historial_nombre_medico(dpiin varchar(20), nommedicoin varchar(50))
 RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30), no_colegiado_medico VARCHAR(10),
@@ -317,7 +317,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function historial_especialidad_medico(dpiin varchar(20), especialidadin varchar(50));
+drop function if exists historial_especialidad_medico(dpiin varchar(20), especialidadin varchar(50));
 CREATE OR REPLACE FUNCTION historial_especialidad_medico(dpiin varchar(20), especialidadin varchar(50))
 RETURNS TABLE(fechahora_atencion TIMESTAMP,	altura FLOAT, peso FLOAT, imc FLOAT, precedentes BOOL,
 	resultado VARCHAR(10), evolucion TEXT, institucion VARCHAR(30), no_colegiado_medico VARCHAR(10),
@@ -337,23 +337,24 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function tratamientos_historialid(historialidin int);
+drop function if exists tratamientos_historialid(historialidin int);
 CREATE OR REPLACE FUNCTION tratamientos_historialid(historialidin int)
-RETURNS TABLE(descripcion TEXT, enfermedad_tratada varchar(30), no_colegiado_medico VARCHAR(10),
-	medico_tratante varchar(50)) as
+RETURNS TABLE(tratamiento_id INT, descripcion TEXT, enfermedad_tratada varchar(30), no_colegiado_medico VARCHAR(10),
+	medico_tratante varchar(50), especialidad VARCHAR(50)) as
 $BODY$
 begin
    	return query
-   	select t.descripcion, e.nombre, t.medico_tratante, u.nombre 
+   	select t.tratamiento_id, t.descripcion, e.nombre, t.medico_tratante, u.nombre, esp.nombre especialidad 
 	from tratamiento t left join enfermedad e on t.enfermedad_tratada = e.enfermedad_id
 		left join medico m on t.medico_tratante = m.no_colegiado 
 		left join usuario u on m.usuario = u.username 
+		inner join especialidad esp on m.especialidad_id = esp.especialidad_id
 	where t.historial_id = historialidin;
 end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function enfermedades_historialid(historialidin int);
+drop function if exists enfermedades_historialid(historialidin int);
 CREATE OR REPLACE FUNCTION enfermedades_historialid(historialidin int)
 RETURNS TABLE(enfermedad_tratada varchar(30)) as
 $BODY$
@@ -367,7 +368,7 @@ end;
 $BODY$
 LANGUAGE plpgsql;
 
-drop function adicciones_historialid(historialidin int);
+drop function if exists adicciones_historialid(historialidin int);
 CREATE OR REPLACE FUNCTION adicciones_historialid(historialidin int)
 RETURNS TABLE(adiccion_padecida varchar(30)) as
 $BODY$

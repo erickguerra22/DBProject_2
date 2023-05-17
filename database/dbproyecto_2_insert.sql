@@ -484,48 +484,32 @@ INSERT INTO asignacion VALUES('medico4', 3, DEFAULT, DEFAULT);
 INSERT INTO bodega VALUES(1,'MED1',30,'20230510');
 INSERT INTO bodega VALUES(2,'MED1',30,'20230510');
 INSERT INTO bodega VALUES(3,'MED2',30,'20230425');
-INSERT INTO bodega VALUES(3,'MED4',30,'20230510');
-INSERT INTO bodega VALUES(1,'MAT1',30,'20230510');
-INSERT INTO bodega VALUES(5,'MAT5',15,'20230430');
-INSERT INTO bodega VALUES(1,'MED4',50,'20230501');
-INSERT INTO bodega VALUES(2,'MED3',22,'20230701');
-INSERT INTO bodega VALUES(4,'MAT2',9,'20240510');
-INSERT INTO bodega VALUES(5,'MAT3',12,'20230610');
+INSERT INTO bodega VALUES(4,'MED4',30,'20230510');
+INSERT INTO bodega VALUES(5,'MAT1',30,'20230510');
+INSERT INTO bodega VALUES(6,'MAT5',15,'20230430');
+INSERT INTO bodega VALUES(5,'MED4',50,'20230501');
+INSERT INTO bodega VALUES(4,'MED3',22,'20230701');
+INSERT INTO bodega VALUES(3,'MAT2',9,'20240510');
+INSERT INTO bodega VALUES(2,'MAT3',12,'20230610');
 
 INSERT INTO expediente VALUES('3013344040101','Erick Stiv Junior Guerra Muñoz','59993108','Villa Nueva','vivo');
 INSERT INTO expediente VALUES('1345879632154','Juan Alberto García Gómez','40563125','Zona 5','vivo');
 INSERT INTO expediente VALUES('1576548796251','Gabriel Enrique Morales Fuentes','53154986','Zona 1','vivo');
 INSERT INTO expediente VALUES('1531459785155','Ximena Daniela Muñoz López','51234608','Zona 10','vivo');
 INSERT INTO expediente VALUES('8654781405012','Cristina Josefa Álvarez Aguirre','85467963','Zona 4','vivo');
-
-select * from historial h;
-select * from tratamiento t;
-select * from enfermedad e;
 INSERT INTO expediente VALUES('1234567891234','Prueba1','123','Zona P','vivo');
-INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'vivo','', 1);
-INSERT INTO tratamiento VALUES(DEFAULT, 11, '..', 2, '0112345');
-INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'curado','', 2);
-INSERT INTO tratamiento VALUES(DEFAULT, 12, '..', 1, '0112345');
-INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'curado','', 4);
-INSERT INTO tratamiento VALUES(DEFAULT, 13, '..', 5, '0112345');
-INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'muerto','', 1);
-INSERT INTO tratamiento VALUES(DEFAULT, 14, '..', 5, '0112345');
-
 INSERT INTO expediente VALUES('9876543219876','Prueba2','123','Zona P','vivo');
-INSERT INTO historial VALUES(DEFAULT, '9876543219876', NOW(), 1.83, 85, DEFAULT, false, 'vivo','', 2);
-INSERT INTO tratamiento VALUES(DEFAULT, 15, '..', 3, '0112345');
-INSERT INTO historial VALUES(DEFAULT, '9876543219876', NOW(), 1.83, 85, DEFAULT, false, 'muerto','', 3);
-INSERT INTO tratamiento VALUES(DEFAULT, 16, '..', 5, '0112345');
-
 INSERT INTO expediente VALUES('7894561231234','Prueba3','123','Zona P','vivo');
+
+INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'vivo','', 1);
+INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'curado','', 2);
+INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'curado','', 4);
+INSERT INTO historial VALUES(DEFAULT, '1234567891234', NOW(), 1.73, 80, DEFAULT, false, 'muerto','', 1);
+INSERT INTO historial VALUES(DEFAULT, '9876543219876', NOW(), 1.83, 85, DEFAULT, false, 'vivo','', 2);
+INSERT INTO historial VALUES(DEFAULT, '9876543219876', NOW(), 1.83, 85, DEFAULT, false, 'muerto','', 3);
 INSERT INTO historial VALUES(DEFAULT, '7894561231234', NOW(), 1.73, 75, DEFAULT, false, 'vivo','', 1);
-INSERT INTO tratamiento VALUES(DEFAULT, 17, '..', 2, '0112345');
 INSERT INTO historial VALUES(DEFAULT, '7894561231234', NOW(), 1.73, 75, DEFAULT, false, 'curado','', 1);
-INSERT INTO tratamiento VALUES(DEFAULT, 18, '..', 3, '0112345');
 INSERT INTO historial VALUES(DEFAULT, '7894561231234', NOW(), 1.73, 75, DEFAULT, false, 'muerto','', 3);
-INSERT INTO tratamiento VALUES(DEFAULT, 19, '..', 5, '0112345');
-
-
 INSERT INTO historial VALUES(DEFAULT, '3013344040101', NOW(), 1.73, 80, DEFAULT, false, 'vivo','El paciente ha evolucionado correctamente en sus respectivas enfermedades', 1);
 INSERT INTO historial VALUES(DEFAULT, '3013344040101', NOW(), 1.65, 75, DEFAULT, true, 'curado','El paciente ha evolucionado correctamente en sus respectivas enfermedades', 3);
 INSERT INTO historial VALUES(DEFAULT, '1345879632154', NOW(), 1.80, 50, DEFAULT, true, 'muerto','El paciente ha evolucionado correctamente en sus respectivas enfermedades', 2);
@@ -534,11 +518,20 @@ INSERT INTO historial VALUES(DEFAULT, '1576548796251', NOW(), 1.68, 85, DEFAULT,
 INSERT INTO historial VALUES(DEFAULT, '1345879632154', NOW(), 1.78, 75, DEFAULT, false, 'curado','.', 2);
 INSERT INTO historial VALUES(DEFAULT, '1345879632154', NOW(), 1.78, 75, DEFAULT, false, 'curado','.', 2);
 
-INSERT INTO tratamiento VALUES(DEFAULT, 1, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 1, '0112345');
-INSERT INTO tratamiento VALUES(DEFAULT, 1, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 2, '0185469');
-INSERT INTO tratamiento VALUES(DEFAULT, 3, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 3, '1284796');
-INSERT INTO tratamiento VALUES(DEFAULT, 3, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 4, '1013452');
-INSERT INTO tratamiento VALUES(DEFAULT, 2, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 5, '0642158');
+INSERT INTO tratamiento VALUES(DEFAULT, 1, '..', 2, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 2, '..', 1, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 3, '..', 5, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 4, '..', 5, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 5, '..', 3, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 6, '..', 5, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 7, '..', 2, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 8, '..', 3, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 9, '..', 5, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 10, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 1, '0112345');
+INSERT INTO tratamiento VALUES(DEFAULT, 11, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 2, '0185469');
+INSERT INTO tratamiento VALUES(DEFAULT, 13, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 3, '1284796');
+INSERT INTO tratamiento VALUES(DEFAULT, 13, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 4, '1013452');
+INSERT INTO tratamiento VALUES(DEFAULT, 12, 'Se diagnosticaron los síntomas, se realizó un examen de orina y se recetó ibuprofeno', 5, '0642158');
 INSERT INTO tratamiento VALUES(DEFAULT, 10, '..', 5, '1284796');
 
 INSERT INTO procedimiento_realizado VALUES(1, 'EXA1');
@@ -548,12 +541,11 @@ INSERT INTO procedimiento_realizado VALUES(2, 'EXA3');
 INSERT INTO procedimiento_realizado VALUES(5, 'CIR1');
 
 INSERT INTO medicamento_suministrado VALUES(1,1,30);
-INSERT INTO medicamento_suministrado VALUES(3,1,10);
-INSERT INTO medicamento_suministrado VALUES(4,3,10);
-INSERT INTO medicamento_suministrado VALUES(5,2,5);
-INSERT INTO medicamento_suministrado VALUES(3,3,2);
-INSERT INTO medicamento_suministrado VALUES(5,4,3);
-INSERT INTO medicamento_suministrado VALUES(1,4,1);
+INSERT INTO medicamento_suministrado VALUES(3,3,10);
+INSERT INTO medicamento_suministrado VALUES(2,1,10);
+INSERT INTO medicamento_suministrado VALUES(6,2,5);
+INSERT INTO medicamento_suministrado VALUES(3,4,2);
+INSERT INTO medicamento_suministrado VALUES(5,1,3);
 
 INSERT INTO enfermedad_padecida VALUES(1,5);
 INSERT INTO enfermedad_padecida VALUES(1,4);

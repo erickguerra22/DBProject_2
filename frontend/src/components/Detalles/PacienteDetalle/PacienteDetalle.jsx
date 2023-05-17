@@ -114,19 +114,19 @@ const PacienteDetalle = ({ patient, onClose }) => {
           DPI
         </label>
         <label htmlFor="pNombre">
-          <input name="pNombre" id="pNombre" required disabled defaultValue={`${paciente.Nombre}`} />
+          <input name="pNombre" id="pNombre" required disabled defaultValue={`${paciente.nombre}`} />
           Nombre
         </label>
         <label htmlFor="pPhone">
-          <input name="pPhone" minLength="8" id="pPhone" required disabled defaultValue={`${paciente.Telefono}`} type="number" />
+          <input name="pPhone" minLength="8" id="pPhone" required disabled defaultValue={`${paciente.telefono}`} type="number" />
           Número de teléfono
         </label>
         <label htmlFor="pAddress">
-          <input name="pAddress" id="pAddress" required disabled defaultValue={`${paciente.Direccion}`} />
+          <input name="pAddress" id="pAddress" required disabled defaultValue={`${paciente.direccion}`} />
           Dirección
         </label>
         <label htmlFor="status">
-          <input name="status" id="status" required disabled defaultValue={`${paciente.Estado}`} />
+          <input name="status" id="status" required disabled defaultValue={`${paciente.estado}`} />
           Estado
         </label>
         <p id="result" />

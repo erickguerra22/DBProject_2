@@ -57,11 +57,11 @@ const NuevoHistorial = ({ onClose }) => {
       <h1 className="titulo">Nuevo historial médico</h1>
       <form className="info" onSubmit={save}>
         <label htmlFor="altura">
-          <input name="altura" id="altura" required type="number" step=".01" />
+          <input name="alturaInput" id="altura" required type="number" step=".01" />
           Altura del paciente
         </label>
         <label htmlFor="peso">
-          <input name="peso" id="peso" required type="number" step=".01" />
+          <input name="pesoInput" id="peso" required type="number" step=".01" />
           Peso
         </label>
         <label htmlFor="precedentes" style={{ marginTop: '20px' }}>

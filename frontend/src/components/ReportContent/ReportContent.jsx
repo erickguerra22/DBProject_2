@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './ReportContent.css'
 import server from '../../services/server'
 import Loading from '../Loading/Loading'
+import Alert from '../Alert/Alert'
 
 const ReportContent = () => {
   // eslint-disable-next-line no-unused-vars
@@ -12,11 +13,13 @@ const ReportContent = () => {
   const reportId = localStorage.getItem('report')
   const reportParam = reportId === '4' ? `${reportId}/${userData.institucion_id}` : reportId
   const [content, setContent] = useState([])
+  const [fetchState, setFetchState] = useState(true)
 
   const fetchReport = async () => {
     const response = await fetch(`${server}/report/rep${reportParam}`)
     const json = await response.json()
     setContent(json.result)
+    setFetchState(json.ok)
     setKeys(Object.keys(json.result[0]))
   }
 
@@ -30,7 +33,9 @@ const ReportContent = () => {
     fetchReport()
   }, [])
 
-  if (content === undefined || content.length === 0) return (<Loading />)
+  if ((content === undefined || content.length === 0) && fetchState === true) return (<Loading />)
+  if (fetchState === false) return <Alert title="Sin medicamentos" text="No se han encontrado medicamentos a punto de terminar en tu institución." />
+
   return (
     <div className="report" id="report">
       <h1>{title}</h1>
