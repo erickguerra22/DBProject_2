@@ -3,8 +3,10 @@ import './NavBar.css'
 // eslint-disable-next-line import/no-cycle
 import { navigate } from '../../pages/index'
 import NavBarOption from '../NavBarOption/NavBarOption'
+import DropdownMenu from '../DropdownMenu/DropdonMenu'
 
 const NavBar = () => {
+  const [dropDownHidden, setDDHidden] = useState(false)
   const userData = JSON.parse(localStorage.getItem('user-data'))
   const [visibleOptions, setVisibleOptions] = useState(true)
   const options = []
@@ -15,7 +17,7 @@ const NavBar = () => {
       options.push({ nombre: 'Usuarios', link: '/' })
       options.push({ nombre: 'Bitácora', link: '/binnacle' })
       options.push({ nombre: 'Asignaciones', link: '/assignments' })
-      options.push({ nombre: 'Reportes', link: '/reports' })
+      options.push({ nombre: 'Reportes', link: '/report' })
       break
     case 2:
       options.push({ nombre: 'Expedientes', link: '/' })
@@ -43,7 +45,11 @@ const NavBar = () => {
         <nav>
           {
             userData.rol_id === 3
-            && <button id="notification">H</button>
+            && (<button id="notification" onClick={() => setDDHidden((old) => !old)}>H</button>)
+          }
+          {
+            userData.rol_id === 3
+            && (<DropdownMenu hidden={dropDownHidden} />)
           }
           <button onClick={() => {
             logout()

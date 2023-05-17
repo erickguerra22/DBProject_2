@@ -7,7 +7,9 @@ const getUsuarios = (req, res) => {
 	from asignacion asig
 	RIGHT JOIN usuario u ON u.username = asig.usuario
 	left JOIN institucion i ON asig.institucion = i.institucion_id
-	left JOIN rol r ON u.rol_id = r.rol_id ORDER BY r.rol_id;`
+	left JOIN rol r ON u.rol_id = r.rol_id
+  where fecha_salida is null
+  ORDER BY r.rol_id;`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -68,7 +70,7 @@ const logIn = ({ body }, res) => {
 	INNER JOIN institucion ON asignacion.institucion = institucion.institucion_id
 	LEFT JOIN medico ON usuario.username = medico.usuario
 	LEFT JOIN especialidad ON especialidad.especialidad_id = medico.especialidad_id
-	WHERE (username=$1 OR email=$1)
+	WHERE fecha_salida is null and (username=$1 OR email=$1)
 	AND pass = $2;`
 
   db.query(query, [user.trim(), passwordEncripted], (err, result) => {
@@ -106,7 +108,7 @@ const getUsuario = ({ params }, res) => {
 	RIGHT JOIN usuario u ON u.username = asig.usuario
 	left JOIN institucion i ON asig.institucion = i.institucion_id
 	left JOIN rol r ON u.rol_id = r.rol_id
-  where username = $1 ORDER BY r.rol_id`
+  where fecha_salida is null and username = $1 ORDER BY r.rol_id`
 
   db.query(query, [username], (err, result) => {
     if (err) {

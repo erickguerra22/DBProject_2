@@ -10,10 +10,11 @@ const Tabla = ({ arr, detail, action }) => {
 
   const handleClick = (row) => {
     localStorage.setItem('selected_item', Object.values(state[row])[0])
+    if (keys[0] === 'historial_id') localStorage.setItem('historyDate', Object.values(state[row])[1])
   }
 
   return (
-    <table className="list">
+    <table className="list" style={{ width: `${keys.length > 1 ? '100%' : '50%'}`, borderRadius: `${keys.length > 1 ? '' : '25px'}` }}>
       <tbody className="listBody">
         <tr key="header" className="header">
           {keys.map((key) => (<th key={key}>{key}</th>))}
@@ -42,7 +43,10 @@ const Tabla = ({ arr, detail, action }) => {
                     }
                     return (
                       <td>
-                        {(value === null && value !== 0) ? 'N/A' : value === false ? 'No' : value}
+
+                        {// eslint-disable-next-line no-nested-ternary
+                          (value === null && value !== 0) ? 'N/A' : value === false ? 'No' : value === true ? 'Si' : value
+                        }
                       </td>
                     )
                   })
@@ -66,11 +70,13 @@ const Tabla = ({ arr, detail, action }) => {
 
 Tabla.defaultProps = {
   detail: true,
+  action: null,
 }
 
 Tabla.propTypes = {
   arr: PropTypes.arrayOf(String).isRequired,
   detail: PropTypes.bool,
+  action: PropTypes.func,
 }
 
 export default Tabla

@@ -22,12 +22,12 @@ const getEnfermedadesMortales = (req, res) => {
       return
     }
 
-    res.send({ ok: true, enfermedadesMortales: result.rows })
+    res.send({ ok: true, result: result.rows })
   })
 }
 
 const getMedicosMasPacientes = (req, res) => {
-  
+
   const query = `select u.nombre, m.no_colegiado, count(distinct h.dpi) cant_pacientes_atendidos
     from tratamiento t natural join historial h
         left join medico m on t.medico_tratante = m.no_colegiado
@@ -35,21 +35,21 @@ const getMedicosMasPacientes = (req, res) => {
     group by u.nombre, m.no_colegiado
     order by cant_pacientes_atendidos desc
     limit 10;`
-  
+
   db.query(query, (err, result) => {
     if (err) {
-    console.log(err)
-    res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
-    return
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
     }
 
     if (result.rows.length === 0) {
-    res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-    return
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
     }
 
-    res.send({ ok: true, medicosMasPacientes: result.rows })
-})
+    res.send({ ok: true, result: result.rows })
+  })
 }
 
 const getPacientesMayorAsistencia = (req, res) => {
@@ -76,13 +76,13 @@ const getPacientesMayorAsistencia = (req, res) => {
       return
     }
 
-    res.send({ ok: true, pacientesMayorAsistencia: result.rows })
+    res.send({ ok: true, result: result.rows })
   })
 }
 
 const getReporteSuministros = ({ params }, res) => {
-  const { idinsti, min_medicamentos, min_materiales } = params
-  const query = `select * from reporte_suministros(${idinsti}, ${min_medicamentos}, ${min_materiales});`
+  const { idinsti } = params
+  const query = `select * from reporte_suministros(${idinsti});`
 
   db.query(query, (err, result) => {
     if (err) {
@@ -96,7 +96,7 @@ const getReporteSuministros = ({ params }, res) => {
       return
     }
 
-    res.send({ ok: true, reporteSuministros: result.rows })
+    res.send({ ok: true, result: result.rows })
   })
 }
 
@@ -108,20 +108,20 @@ const getInstitucionesMayorAsistencia = (req, res) => {
     group by i.nombre
     order by pacientes_atendidos desc
     limit 3;`
-  
+
   db.query(query, (err, result) => {
     if (err) {
-    console.log(err)
-    res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
-    return
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
     }
 
     if (result.rows.length === 0) {
-    res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-    return
+      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
+      return
     }
 
-    res.send({ ok: true, institucionesMayorAsistencia: result.rows })
+    res.send({ ok: true, result: result.rows })
   })
 }
 

@@ -5,7 +5,6 @@ import server from '../../../services/server'
 
 const UsuarioDetalle = ({ username, onClose }) => {
   const [user, setUser] = useState([])
-  console.log(user)
   const [institutions, setInstitutions] = useState([])
   const [roles, setRoles] = useState([])
 
@@ -102,8 +101,9 @@ const UsuarioDetalle = ({ username, onClose }) => {
     setInstitutions(json.instituciones)
   }
 
-  const handleSelect = () => {
-    document.getElementById('role').style.color = 'black'
+  const handleSelect = (event) => {
+    // eslint-disable-next-line no-param-reassign
+    event.target.style.color = 'black'
   }
 
   useEffect(() => {

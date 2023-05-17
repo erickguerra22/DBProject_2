@@ -8,6 +8,8 @@ import { useAuth } from '../services/Auth'
 import Binnacle from './Binnacle/Binnacle'
 import Assignment from './Assignment/Assignment'
 import Report from './Reports/Report'
+import ReportDetail from './ReportDetail/ReportDetail'
+import History from './History/History'
 
 const navigate = (page) => {
   window.location = `/${page}`
@@ -25,11 +27,17 @@ const Page = () => {
       <Route path="/sign-up">
         {authToken ? <Redirect to="/" /> : <SignUp />}
       </Route>
+      <Route path="/history">
+        {authToken ? <History /> : <Redirect to="/log-in" />}
+      </Route>
       <Route path="/binnacle">
         {authToken ? <Binnacle /> : <Redirect to="/log-in" />}
       </Route>
-      <Route path="/reports">
+      <Route exact path="/report">
         {authToken ? <Report /> : <Redirect to="/log-in" />}
+      </Route>
+      <Route path="/report">
+        {authToken ? <ReportDetail /> : <Redirect to="/log-in" />}
       </Route>
       <Route path="/assignments">
         {authToken ? <Assignment /> : <Redirect to="/log-in" />}

@@ -1,3 +1,3 @@
-const server = 'http://127.0.0.1:2800'
+const server = 'http://localhost:2800'
 
 export default server

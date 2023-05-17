@@ -43,8 +43,6 @@ const NuevoUsuario = ({ onClose }) => {
     })
     const responseJSON = await response.json()
 
-    console.log(responseJSON)
-
     if (responseJSON.ok === false) {
       document.getElementById('newResult').innerHTML = responseJSON.error
       document.getElementById('newResult').style.color = 'red'
@@ -120,7 +118,7 @@ const NuevoUsuario = ({ onClose }) => {
           </select>
           Institución
         </label>
-        <p id="newResult" style={{textAlign:'center', fontSize:'13px'}} />
+        <p id="newResult" style={{ textAlign: 'center', fontSize: '13px' }} />
         <div className="actions">
           <button type="button" onClick={() => onClose()} className="edit" id="abort">Cancelar</button>
           <button type="submit" id="saveNew">Guardar</button>

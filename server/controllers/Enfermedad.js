@@ -1,6 +1,6 @@
 import db from '../services/DBConnection.js'
 
-const getEnfermedades = ({ params }, res) => {
+const getEnfermedadesOnHistory = ({ params }, res) => {
   const { id } = params
   const query = `select * from enfermedades_historialid(${id});`
   db.query(query, (err, result) => {
@@ -19,6 +19,19 @@ const getEnfermedades = ({ params }, res) => {
   })
 }
 
+const getEnfermedades = (req, res) => {
+  db.query('SELECT * FROM enfermedad', (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.send({ ok: true, result: result.rows })
+  })
+}
+
 export {
+  getEnfermedadesOnHistory,
   getEnfermedades
 }

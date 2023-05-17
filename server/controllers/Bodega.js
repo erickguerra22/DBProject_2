@@ -1,7 +1,7 @@
 import db from '../services/DBConnection.js'
 
 const getBodega = ({ params }, res) => {
-  const {id} = params
+  const { id } = params
   const query = `with bod as (
     select 'medicamento' as tipo, institucion_id, med.nombre, cantidad, fecha_vencimiento
       from bodega b NATURAL JOIN suministro
@@ -13,7 +13,7 @@ const getBodega = ({ params }, res) => {
   )
   SELECT tipo "Tipo", nombre "Nombre", cantidad "Cantidad", fecha_vencimiento "Fecha de vencimiento" FROM bod
     where institucion_id = $1;`
-  db.query(query,[id], (err, result) => {
+  db.query(query, [id], (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -30,7 +30,7 @@ const getBodega = ({ params }, res) => {
 }
 
 const searchBodega = ({ params }, res) => {
-  const {id,search} = params
+  const { id, search } = params
   const query = `with bod as (
     select 'medicamento' as tipo, institucion_id, med.nombre, cantidad, fecha_vencimiento
       from bodega b NATURAL JOIN suministro
@@ -42,7 +42,7 @@ const searchBodega = ({ params }, res) => {
   )
   SELECT tipo "Tipo", nombre "Nombre", cantidad "Cantidad", fecha_vencimiento "Fecha de vencimiento" FROM bod
     where institucion_id = $1 and (nombre ilike '%${search}%' or tipo ilike '%${search}%');`
-  db.query(query,[id], (err, result) => {
+  db.query(query, [id], (err, result) => {
     if (err) {
       console.log(err)
       res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
@@ -79,8 +79,27 @@ const updateSuministro = ({ body, params }, res) => {
   })
 }
 
+const newSuministro = ({ params, body }, res) => {
+  const { suministro, cantidad, expiracion } = body
+  const { institucion } = params
+
+  const query = `INSERT INTO bodega VALUES($4,$1,$2,$3) RETURNING suministro_id, cantidad, fecha_vencimiento;`
+
+  db.query(query, [suministro, cantidad, expiracion, institucion], (err, result) => {
+    if (err) {
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    const inserted = result.rows[0]
+    res.json({ ok: true, inserted })
+    return
+  })
+}
+
 export {
   getBodega,
   searchBodega,
-  updateSuministro
+  updateSuministro,
+  newSuministro
 }

@@ -23,6 +23,7 @@ import MedicineRoute from './routes/medicamento.route.js'
 import ProcedureRoute from './routes/procedimiento.route.js'
 import EspecialityRoute from './routes/especiality.route.js'
 import AssignmentRoute from './routes/assignment.route.js'
+import SupplyRoute from './routes/suministro.route.js'
 
 const app = express()
 
@@ -63,3 +64,4 @@ app.use('/medicine', MedicineRoute)
 app.use('/procedure', ProcedureRoute)
 app.use('/especiality', EspecialityRoute)
 app.use('/assignment', AssignmentRoute)
+app.use('/supply', SupplyRoute)

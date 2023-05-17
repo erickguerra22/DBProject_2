@@ -10,11 +10,6 @@ const getHistorial = ({ params }, res) => {
       return
     }
 
-    if (result.rows.length === 0) {
-      res.status(404).send({ ok: false, error: 'No se han encontrado resultados.' })
-      return
-    }
-
     res.send({ ok: true, historiales: result.rows })
   })
 }
@@ -152,6 +147,91 @@ const searchHistorialByEspMedico = ({ params }, res) => {
   })
 }
 
+const newHistorial = ({ params, body }, res) => {
+  const { dpi } = params
+  const { altura, peso, precedentes, resultado, evolucion, institucion } = body
+  const query = `INSERT INTO historial VALUES(DEFAULT, $1, now(), $2, $3, DEFAULT, $4, $5,$6, $7);`
+
+  db.query(query, [dpi, altura, peso, precedentes, resultado, evolucion, institucion], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true })
+    return
+  })
+}
+
+const getDiseases = ({ params }, res) => {
+  const { historial, search } = params
+  const searchVal = search || ''
+  const query = `select nombre "Enfermedad padecida" from enfermedad_padecida
+  NATURAL JOIN enfermedad where historial_id = $1
+  and nombre ilike '%${searchVal}%'`
+  db.query(query, [historial], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const getAdictions = ({ params }, res) => {
+  const { historial, search } = params
+  const searchVal = search || ''
+  const query = `select sustancia "Adicción padecida" from adiccion_padecida
+  NATURAL JOIN adiccion where historial_id = $1
+  and sustancia ilike '%${searchVal}%'`
+  db.query(query, [historial], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true, result: result.rows })
+    return
+  })
+}
+
+const newDisease = ({ params, body }, res) => {
+  const { historial } = params
+  const { enfermedad } = body
+  const query = `INSERT INTO enfermedad_padecida VALUES($1,$2);`
+  db.query(query, [historial, enfermedad], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true })
+    return
+  })
+}
+
+const newAddiction = ({ params, body }, res) => {
+  const { historial } = params
+  const { sustancia } = body
+  const query = `INSERT INTO adiccion_padecida VALUES($1,$2);`
+  db.query(query, [historial, sustancia], (err, result) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send({ ok: false, error: `Error del servidor: ${err}` })
+      return
+    }
+
+    res.json({ ok: true })
+    return
+  })
+}
+
 export {
   getHistorial,
   searchHistorialByDate,
@@ -159,5 +239,10 @@ export {
   searchHistorialByMunicipio,
   searchHistorialByDepartamento,
   searchHistorialByMedico,
-  searchHistorialByEspMedico
+  searchHistorialByEspMedico,
+  newHistorial,
+  getDiseases,
+  getAdictions,
+  newDisease,
+  newAddiction
 }
